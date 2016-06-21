@@ -7,10 +7,7 @@ import os
 import sys
 import traceback
 
-try:
-    from kivy.config import ConfigParser
-except Exception as text_error:
-    raise text_error
+from kivy.config import ConfigParser
 
 
 __version__ = '0.0.1'
