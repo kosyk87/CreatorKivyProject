@@ -35,7 +35,7 @@ class CDialog(Dialog):
     default_color = StringProperty('#ffffff00')
     '''Дефолтный цвет палитры.
 
-    :attr:`text_button_ok` is a :class:`~kivy.properties.StringProperty`
+    :attr:`default_color` is a :class:`~kivy.properties.StringProperty`
     and defaults to '#ffffff00'.
     '''
 
@@ -75,7 +75,8 @@ if __name__ in ('__main__', '__android__'):
             print(args[0])
 
         def show_palette(self, *args):
-            CDialog(events_callback=self.select, size_hint=(.8, .97))
+            CDialog(title='Пример окна CDialog', events_callback=self.select,
+                    size_hint=(.8, .97))
 
 
     runTouchApp(Test())

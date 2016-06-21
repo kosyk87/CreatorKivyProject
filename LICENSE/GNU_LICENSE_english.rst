@@ -1,20 +1,8 @@
 [color=#9e6e47ff]GNU GENERAL PUBLIC LICENSE
 -------------------------------------------
 
-[color=#282727ff]i
-
-[color=#282727ff]i
-
-[color=#282727ff]i
-
 .. image:: LICENSE/GNU.png
    :align: center
-
-[color=#282727ff]i
-
-[color=#282727ff]i
-
-[color=#282727ff]i
 
 [color=#a6b4bcff]Версия 2, июнь 1991г.
 

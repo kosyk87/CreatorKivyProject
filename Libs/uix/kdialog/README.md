@@ -53,6 +53,8 @@ kdialog
   **FDialog** - `класс для работы с файловым менеджером;`
  
   **CDialog** - `класс для работы с окном выбора цвета;`
+ 
+  **PDialog** - `класс для работы с прогресс баром;`
 
 Все классы имееют одного родителя,который наследуется от
 :class:` ~kivy.uix.popup.Popup`. Поэтому при создании экземпляра любого из
@@ -344,6 +346,75 @@ kdialog
     background_image_buttons = (
         {0: 'data/button_ok.png', 1: 'data/button_no.png', 2: 'data/button_cancel.png'}
     )
+
+Описание класса BDialog
+------------------------
+Предоставляет список кнопок.
+
+Пример использования
+---------------------
+Передайте при инициализации класса BDialog параметру button_list список вида 
+['Текст кнопки', 'путь к фону кнопки', ...]:
+
+        def on_press(self, instance_button):
+            print(instance_button.id)
+
+        def show_dialog(self, *args):
+            button_list = []
+            for i in range(50):
+                button_list.append(
+                    ['Text{0:3d}'.format(i),
+                     '{}/data/button_ok.png'.format(root)]
+                )
+
+            BDialog(
+                events_callback=self.on_press, button_list=button_list,
+                hint_x=1.8, title='Пример окна BDialog').show()
+
+![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/KDialog/master/data/screenshots/bdialog.png)
+
+Описание класса PDialog
+------------------------
+Предоставляет простой прогресс бар.
+
+Пример использования
+---------------------
+
+        def complete(self):
+            '''Функция вызывается после окончания цикла прогресса.'''
+
+            KDialog(title='Info').show(text='Complete!')
+
+        def retrieve_callback(self, *args):
+            '''Функция вызывается во время цикла прогресса.'''
+
+            tick = args[1]  # метод _tick класса PDialog
+            complete = args[2]  # метод self.complete
+            args = args[0]  # аргументы, переданные в метод show
+
+            for i in range(1, 101):
+                assert(self.cancel_flag > 0)
+                tick(i, 100)
+                time.sleep(.1)
+
+            complete()
+
+        def download_cancel(self, *args):
+            '''Функция вызывается после прерывания цикла прогресса.'''
+
+            self.cancel_flag = False
+            self.progress_load.dismiss()
+            self.cancel_flag = True
+
+        def show_progress(self, *args):
+            self.progress_load = \
+                BDialog(title='Пример окна PDialog',
+                        retrieve_callback=self.retrieve_callback,
+                        events_callback=self.download_cancel,
+                        complete=self.complete)
+            self.progress_load.show()
+
+![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/KDialog/master/data/screenshots/pdialog.png)
 
 КОНТАКТЫ
 ---------

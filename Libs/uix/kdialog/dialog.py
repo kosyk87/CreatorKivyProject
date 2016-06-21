@@ -6,6 +6,7 @@
 
 import os
 
+from kivy import metrics
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import Image
 from kivy.uix.widget import Widget
@@ -35,8 +36,15 @@ class ImageButton(ButtonBehavior, Image):
 
 
 class Dialog(Popup):
+    retrieve_callback = ObjectProperty(_pass)
+    '''Пользовательская функция, вызываемая при работе прогресса.
+
+    :attr:`retrieve_callback` is a :class:`~kivy.properties.ObjectProperty`
+    and defaults to pass.
+    '''
+
     events_callback = ObjectProperty(_pass)
-    '''Пользовательская ункция обработки событий окна.
+    '''Пользовательская функция обработки событий окна.
 
     :attr:`events_callback` is a :class:`~kivy.properties.ObjectProperty`
     and defaults to pass.
@@ -102,9 +110,12 @@ class Dialog(Popup):
     underline_color = StringProperty('#2fa7d4ff')
     '''Линия заголовка в RstDocument.
 
-    :attr:`title_align` is a :class:`~kivy.properties.StringProperty`
+    :attr:`underline_color` is a :class:`~kivy.properties.StringProperty`
     and defaults to '#2fa7d4ff'.
     '''
+
+    dp = ObjectProperty(metrics.dp)
+    sp = ObjectProperty(metrics.sp)
 
     def __init__(self, **kvargs):
         super(Dialog, self).__init__(**kvargs)

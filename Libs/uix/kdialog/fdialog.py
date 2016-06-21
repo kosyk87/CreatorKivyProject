@@ -73,6 +73,7 @@ class FDialog(Dialog):
 if __name__ in ('__main__', '__android__'):
     from kivy.base import runTouchApp
 
+
     class Test(BoxLayout):
         def __init__(self, **kvargs):
             super(Test, self).__init__(**kvargs)
@@ -91,7 +92,8 @@ if __name__ in ('__main__', '__android__'):
 
         def show_manager(self, *args):
             self.file_manager = \
-                FDialog(events_callback=self.select, size_hint=(.5, .9))
+                FDialog(events_callback=self.select, size_hint=(.5, .9),
+                        filter='folder', title='Пример окна FDialog')
 
 
     runTouchApp(Test())

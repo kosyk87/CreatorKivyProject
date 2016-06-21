@@ -33,13 +33,25 @@ if root == '':
 
 class ADialog(Dialog):
     logo_program = StringProperty('data/logo/kivy-icon-24.png')
-    """Логотип приложения."""
+    '''Логотип приложения.
+
+    :attr:` logo_program` is a :class:`~kivy.properties.StringProperty`
+    and defaults to 'data/logo/kivy-icon-24.png'.
+    '''
 
     name_program = StringProperty('Kivy 1.9.2')
-    """Название приложения."""
+    '''Название приложения.
+
+    :attr:` name_program` is a :class:`~kivy.properties.StringProperty`
+    and defaults to 'Kivy 1.9.2'.
+    '''
 
     user_size_hint = ListProperty((.95, .85))
-    """Размер окна."""
+    '''Размер окна
+
+    :attr: `user_size_hint` is a :class:`~kivy.properties.ListProperty`
+    and defaults to [.95, .85].
+    '''
 
     info_program = ListProperty([])
 
@@ -50,7 +62,7 @@ class ADialog(Dialog):
 
         content = self.ids.content
         box_content = self.ids.box_content
-        height, avatar_size_hint = (60, (.05, .9))
+        height, avatar_size_hint = (self.dp(60), (.05, .9))
 
         self.ids.logo.size_hint = avatar_size_hint
         self.ids.box_logo_and_title.height = height
@@ -63,7 +75,7 @@ class ADialog(Dialog):
 
             info_string = \
                 Label(text=info_string, size_hint_y=None,
-                      font_size=self.base_font_size, markup=True,
+                      font_size=self.dp(self.base_font_size), markup=True,
                       on_ref_press=self.events_callback)
             info_string.bind(size=lambda *args: self._update_label_size(args))
             content.add_widget(info_string)
@@ -77,11 +89,11 @@ class ADialog(Dialog):
 
         if label.id == 'name_program':
             if not self.flag:
-                label.height = 52
+                label.height = self.dp(52)
         else:
-            label.height = label.texture_size[1] - 8
+            label.height = self.dp(label.texture_size[1] - 8)
 
-        label.text_size = (label.width - 30, None)
+        label.text_size = (self.dp(label.width - 30), None)
         label.texture_update()
 
 
@@ -166,7 +178,7 @@ if __name__ in ('__main__', '__android__'):
             ADialog(dismiss_callback=self.about_dismiss,
                     events_callback=self.events_callback,
                     logo_program=logo_program, info_program=info_program,
-                    name_program=name_program)
+                    name_program=name_program, title='Пример окна ADialog')
 
 
     Test().run()

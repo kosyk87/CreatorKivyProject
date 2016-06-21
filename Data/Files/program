@@ -22,7 +22,7 @@ try:
     from kivy.properties import ObjectProperty, StringProperty, NumericProperty
 
     # Макеты интерфейса.
-    from Libs.uix.kdialog import KDialog  # ADialog, FDialog, CDialog
+    from Libs.uix.kdialog import KDialog  # ADialog, FDialog, CDialog, PDialog
     from Libs.uix.startscreen import StartScreen
 
     # Классы программы.
@@ -68,13 +68,15 @@ class Program(App, prog_class.ProgClass):
         # self.Clock = Clock
         # ----------------------------------
         # self.KDialog = KDialog
-        # self.FileChooser = FileChooser
-        # self.AboutDialog = AboutDialog
-        # self.SelectColor = SelectColor
+        # self.ADialog = ADialog
+        # self.FDialog = FDialog
+        # self.CDialog = CDialog
+        # self.PDialog = PDialog
         # ----------------------------------
         # self.Manifest = Manifest
         # self.core = core
         # self.traceback = traceback
+        self.name_program = core.string_lang_title[:-1]
 
     def get_application_config(self):
         return super(Program, self).get_application_config(
@@ -118,7 +120,7 @@ class Program(App, prog_class.ProgClass):
         """
 
     def build(self):
-        self.title = core.string_lang_title[:-1]  # заголовок окна программы
+        self.title = self.name_program  # заголовок окна программы
         self.icon = 'Data/Images/logo.png'  # иконка окна программы
         # self.use_kivy_settings = False
 
@@ -128,7 +130,7 @@ class Program(App, prog_class.ProgClass):
 
         # Домашняя страница клиента.
         self.start_screen = \
-            StartScreen(title_previous=core.string_lang_title[:-1],
+            StartScreen(title_previous=self.name_program,
                         buttons_group=[core.string_lang_settings,
                                        core.string_lang_license,
                                        core.string_lang_exit_key],
@@ -177,7 +179,8 @@ class Program(App, prog_class.ProgClass):
                 webbrowser.open(click_link)
             else:
                 on_language = args[0]  # кнопки 'На русском/На английском'
-                progress = KDialog().show(text=core.string_lang_wait)
+                progress = KDialog(title=self.name_program).show(
+                    text=core.string_lang_wait)
                 Clock.schedule_once(
                     lambda *args: show_license(progress, on_language), 0.3)
 
@@ -185,18 +188,19 @@ class Program(App, prog_class.ProgClass):
             path_to_license = 'LICENSE/GNU_LICENSE_{}.rst'.format(
                 core.dict_language[on_language])
             if not os.path.exists(path_to_license):
-                KDialog().show(text=core.string_lang_not_license,
-                               text_button_ok=core.string_lang_yes,
-                               param='query')
+                KDialog(title=self.name_program).show(
+                    text=core.string_lang_not_license,
+                    text_button_ok=core.string_lang_yes, param='query')
                 progress.dismiss()
                 return
 
             text_license = open(path_to_license).read()
-            KDialog(underline_color='a6b4bcff').show(
-                title='GNU LICENSE:', text=text_license, rst=True)
+            KDialog(title='GNU LICENSE:', underline_color='a6b4bcff').show(
+                text=text_license, rst=True)
             progress.dismiss()
 
-        KDialog(answer_callback=choice_language_license).show(
+        KDialog(title=self.name_program,
+                answer_callback=choice_language_license).show(
             text=core.string_lang_desc_license,
             text_button_ok=core.string_lang_on_russian,
             text_button_no=core.string_lang_on_english, param="query",
@@ -211,14 +215,15 @@ class Program(App, prog_class.ProgClass):
 
         AboutDialog(events_callback=events_callback,
                     background_image=core.theme_decorator_window,
-                    name_program=core.string_lang_title[:-1])
+                    name_program=self.name_program)
 
     def exit_program(self, *args):
         def callback(answer):
             if answer == core.string_lang_yes:
                 sys.exit(0)
 
-        KDialog(answer_callback=callback).show(
+        KDialog(answer_callback=callback,
+                title=self.name_program).show(
             text_button_ok=core.string_lang_yes,
             text_button_no=core.string_lang_no, param='query')
 

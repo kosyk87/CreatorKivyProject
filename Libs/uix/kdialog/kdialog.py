@@ -18,7 +18,6 @@ try:
     from kivy.clock import Clock
     from kivy.lang import Builder
 
-
     try:
         from . dialog import Dialog
         from . dialog import SettingSpacer
@@ -47,7 +46,7 @@ class KDialog(Dialog):
 
         # Бокс для кнопок 'Yes, No, Cancel'.
         self.box_buttons_select = \
-            BoxLayout(size_hint_y=None, height=40, spacing=5)
+            BoxLayout(size_hint_y=None, height=self.dp(40), spacing=5)
         self.scroll = self.ids.scroll
         self.box_root = self.ids.box_root
         self.box_content = self.ids.box_content
@@ -55,18 +54,14 @@ class KDialog(Dialog):
             height=lambda *args: self._update_box_content_size(args)
         )
 
-    def show(self, title='Message:', text='Your text message!',
+    def show(self, text='Your text message!', rst=False,
              text_button_ok=None, text_button_no=None, text_button_cancel=None,
-             image=None, param='info', password=False,
-             auto_dismiss=False, rst=False):
+             image=None, param='info', password=False, auto_dismiss=False):
         '''
-        :param title: подпись окна;
-        :type title: str;
-
-        :param text: еукст окна;
+        :param text: текст окна;
         :type text: str;
 
-        :param text_button_ok: еукст кнопки;
+        :param text_button_ok: текст кнопки;
         :type text_button_ok: str;
 
         :param text_button_no:
@@ -124,7 +119,7 @@ class KDialog(Dialog):
             self.box_content.cols = 2
             self.message = \
                 Label(size_hint_y=None, markup=True, text=text,
-                      font_size='{}sp'.format(str(self.base_font_size)),
+                      font_size=self.sp(self.base_font_size),
                       font_name=self.base_font_name, valign='middle')
             self.message.bind(size=lambda *args: self._update_label_size(args))
             self.box_content.add_widget(Image(source=image, size_hint_x=None))
@@ -138,14 +133,14 @@ class KDialog(Dialog):
                     self.message = \
                         Label(size_hint_y=None, markup=True, text=_text,
                               on_ref_press=self.answer_callback,
-                              font_size='{}sp'.format(str(self.base_font_size)),
+                              font_size=self.sp(self.base_font_size),
                               font_name=self.base_font_name)
                     self.message.bind(
                         size=lambda *args: self._update_label_size(args))
                     self.box_content.add_widget(self.message)
             else:
                 self.message = \
-                    RstDocument(text=text, size_hint_y=None, height=400,
+                    RstDocument(text=text, size_hint_y=None, height=self.dp(400),
                                 background_color=[1.0, 1.0, 1.0, 0.0])
                 self.box_content.add_widget(self.message)
 
@@ -165,8 +160,8 @@ class KDialog(Dialog):
 
                 self.input_dialog_double = \
                     TextInput(input_type=param, password=password,
-                              size_hint_y=None, height=40, hint_text='Login',
-                              multiline=False)
+                              size_hint_y=None, height=self.dp(40),
+                              hint_text='Login', ultiline=False)
                 self.input_dialog_double.bind(on_press=self._answer_user)
                 self.box_root.add_widget(self.input_dialog_double)
 
@@ -174,7 +169,7 @@ class KDialog(Dialog):
             self.input_dialog = \
                 TextInput(input_type=param, password=password,
                           hint_text=hint_text, multiline=False,
-                          size_hint_y=None, height=40)
+                          size_hint_y=None, height=self.dp(40))
             self.input_dialog.bind(on_press=self._answer_user)
             self.box_root.add_widget(self.input_dialog)
 
@@ -187,7 +182,6 @@ class KDialog(Dialog):
                 self.box_root.add_widget(Widget(size_hint=(None, .03)))
                 self.box_root.add_widget(self.box_buttons_select)
 
-        self.title = title
         self.auto_dismiss = auto_dismiss
         self._update_box_content_size()
         self.open()
@@ -199,20 +193,20 @@ class KDialog(Dialog):
 
     def _update_box_content_size(self, *args):
         if args != ():
-            height = args[0][1]
-            if height != 0 and height is not None and height != 100:
+            height = self.dp(args[0][1])
+            if height != 0 and height is not None and height != self.dp(150):
                 if self.param == 'logpass':
-                    self.height = 210
+                    self.height = self.dp(210)
                 elif self.param == 'text':
-                    self.height = 170
+                    self.height = self.dp(170)
                 else:
-                    self.height = 150 if height < 150 else height
+                    self.height = self.dp(150) if height < self.dp(150) else height
         else:
             if self.rst:
-                self.height = 400
+                self.height = self.dp(400)
 
         if self.height > Window.size[1]:
-            self.height = Window.size[1] - 10
+            self.height = self.dp(Window.size[1] - 10)
 
     def _update_label_size(self, *args):
         label = args[0][0]
@@ -261,34 +255,39 @@ if __name__ in ('__main__', '__android__'):
 
             # ----------------------------logpass-----------------------------
             if text == 'Demo `logpass`':
-                window = KDialog(answer_callback=self.answer_callback)
+                window = KDialog(answer_callback=self.answer_callback,
+                                 title='Пример окна с параметром `logpass`')
                 window.show(text='Your [color=#2fa7d4ff] Login [/color]:',
                             text_button_ok='OK', text_button_no='NO',
                             text_button_cancel='CANCEL', param='logpass',
                             password=True)
             # -----------------------------info-------------------------------
             elif text == 'Demo `info`':
-                KDialog().show(text='This string [color=#2fa7d4ff] Info!')
+                KDialog(title='Пример окна с параметром `info`').show(
+                    text='This string [color=#2fa7d4ff] Info!')
             # ----------------------------query-------------------------------
             elif text == 'Demo `query`':
-                window = KDialog(answer_callback=self.answer_callback)
+                window = KDialog(answer_callback=self.answer_callback,
+                                 title='Пример окна с параметром `query`')
                 window.show(text=kivy.__doc__, param='query',
                             text_button_ok='OK',
                             text_button_no='NO')
             # ----------------------------text--------------------------------
             elif text == 'Demo `text`':
-                window = KDialog(answer_callback=self.answer_callback)
+                window = KDialog(answer_callback=self.answer_callback,
+                                 title='Пример окна с параметром `text`')
                 window.show(text='Input [color=#2fa7d4ff] Text [/color]:',
                             text_button_ok='OK', text_button_no='NO',
                             param='text')
             # ----------------------------rst---------------------------------
             elif text == 'Demo `rst`':
-                window = KDialog(answer_callback=self.answer_callback)
+                window = KDialog(answer_callback=self.answer_callback,
+                                 title='Пример окна с параметром `rst`')
                 window.show(text=kivy.__doc__, rst=True, text_button_ok='OK',
                             text_button_no='NO')
             # ------------------------loaddialog------------------------------
             elif text == 'Demo `loaddialog`':
-                window = KDialog()
+                window = KDialog(title='Пример окна с параметром `loaddialog`')
                 window.show(text='Loading [color=#2fa7d4ff] Page...',
                             param='loaddialog', auto_dismiss=True)
 
