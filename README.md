@@ -36,4 +36,7 @@ Version 0.0.1
 Email: gorodage@gmail.com
 
 [Аккаунт на Хабре](https://habrahabr.ru/users/heattheatr/)
+<<<<<<< HEAD
 
+=======
+>>>>>>> dd5175badaac94c781b4ef3b2986c20d8612f9f8
