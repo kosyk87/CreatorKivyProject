@@ -1,0 +1,35 @@
+#: kivy 1.9.2
+
+<ADialog>
+    separator_height: '1sp'
+    on_dismiss: root.dismiss_callback
+    BoxLayout:
+        id: box_content
+        orientation: 'vertical'
+        # Бокс для титульной полосы - иконка/имя программы.
+        BoxLayout:
+            id: box_logo_and_title
+            size_hint_y: None
+            ImageButton:
+                id: logo
+                source: root.logo_program
+            Label:
+                id: name_program
+                text: root.name_program
+                text_size: self.size
+                valign: "middle"
+                markup: True
+        ScrollView:
+            # Текстовая информация
+            GridLayout:
+                id: content
+                cols: 1
+                spacing: 17
+                size_hint_y: None
+                height: self.minimum_height
+                canvas:
+                    Color:
+                        rgba: [1.0, 1.0, 1.0, 0.0]
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size

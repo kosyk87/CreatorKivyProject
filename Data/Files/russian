@@ -1,0 +1,67 @@
+﻿#
+# Файл русской языковой локализации
+#
+
+string_lang_title = '{NAME_PROJECT}'
+string_lang_exit_key = 'Выход'
+
+#------------------------------------------------------------------------------
+
+string_lang_wait = 'Подождите...'
+string_lang_exit = 'Покинуть программу?'
+
+#------------------------------------------------------------------------------
+
+string_lang_yes = 'Да'
+string_lang_no = 'Нет'
+string_lang_cancel = 'Отмена'
+
+#------------------------------------------------------------------------------
+
+string_lang_license = 'Лицензия'
+string_lang_not_license = 'Не найден текст лицензии!'
+string_lang_on_russian = 'На русском'
+string_lang_on_english = 'На английском'
+
+#------------------------------------------------------------------------------
+
+string_lang_settings = 'Настройки'
+string_lang_general = 'Общие'
+string_lang_theme = 'Темы'
+
+string_lang_setting_language = 'Настройки локализации:'
+string_lang_setting_language_title = 'Язык приложения'
+string_lang_setting_language_desc = 'Выберите предпочтительный язык приложения;'
+string_lang_setting_language_russian = 'Русский'
+string_lang_setting_language_english = 'English'
+
+string_lang_setting_chek_themes = 'Настройки цветовых тем:'
+string_lang_setting_chek_themes_title = 'Выбрать тему'
+string_lang_setting_chek_themes_desc = 'Выберите одну из установленных цветовых тем;'
+string_lang_setting_edit_themes_title = 'Изменить тему'
+string_lang_setting_edit_themes_desc = 'Правка цветовой палитры одной из установленных тем;'
+string_lang_setting_create_themes_title = 'Создать тему'
+string_lang_setting_create_themes_desc = 'Создайте новую цветовую схему приложения;'
+
+#------------------------------------------------------------------------------
+
+string_lang_desc_license = \
+'''
+[color=#text_color]Проект [color=#key_text_color]{NAME_PROJECT}.
+-------------------------------------------------------------------------------
+[color=#link_color][ref={REPOSITORY}]{REPOSITORY}[/ref]
+
+[color=#text_color]Специально для сайта [color=#link_color][ref=https://.dimonvideo.ru]www.dimonvideo.ru[/ref][color=#text_color] Это свободное программное обеспечение.
+Вы можете распространять и/или изменять его на условиях лицензии [color=#key_text_color]GNU General Public License, [color=#text_color]опубликованной Фондом свободного программного обеспечения; либо версии 2 этой лицензии, либо (по вашему выбору) любой более поздней версии.
+
+[color=#key_text_color]{NAME_PROJECT} [color=#text_color]распространяется в надежде, что он может быть полезен, но
+
+[color=#key_text_color]БЕЗ КАКОГО-ЛИБО ВИДА ГАРАНТИЙ, ВЫРАЖЕННЫХ ЯВНО ИЛИ ПОДРАЗУМЕВАЕМЫХ, ВКЛЮЧАЯ, НО НЕ ОГРАНИЧИВАЯСЬ ПОДРАЗУМЕВАЕМЫМИ ГАРАНТИЯМИ КОММЕРЧЕСКОЙ ЦЕННОСТИ И ПРИГОДНОСТИ ДЛЯ КОНКРЕТНОЙ ЦЕЛИ.[color=#text_color]
+
+[color=#text_color]Для получения дополнительных сведений обратитесь к лицензии[color=#key_text_color] GNU General Public License. [color=#text_color]Нажав [color=#key_text_color]ОК, [color=#text_color]вы соглашаетесь с условиями данного текста и условиями распространения [color=#key_text_color]ПО [color=#text_color]по лицензии [color=#key_text_color]GNU. [color=#text_color]Если у вас возникли сомнения, пожалуйста, откажитесь от использования данной программы.
+
+[color=#text_color]Ознакомиться с лицензией и получить контактную информацию вы можете в разделе [color=#key_text_color]'Лицензия' [color=#text_color]меню приложения. [color=#text_color]Если вы не обнаружили в приложении[color=#key_text_color] {NAME_PROJECT}[color=#text_color] копию лицензии [color=#key_text_color]GNU General Public License, [color=#text_color]напишите в [color=#key_text_color]Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+'''
+
+#------------------------------------------------------------------------------
+

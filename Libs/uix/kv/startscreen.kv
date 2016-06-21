@@ -1,0 +1,30 @@
+#:kivy 1.9.2
+
+<StartScreen@BoxLayout>
+    orientation: "vertical"
+    Image:
+        source: root.title_image
+        size_hint: root.title_image_size
+    ScreenManager:
+        id: screen_manager
+        size_hint: 1, 8
+        Screen:
+            name: "HeaTDV4A"
+            Label:
+                id: mobile_client_label
+                pos_hint: {"top": 1.1}
+                font_size: dp(16)
+                markup: True
+    ActionBar:
+        ActionView:
+            id: action_view
+            ActionPrevious:
+                id: action_previous
+                app_icon: root.previous
+                title: root.title_previous
+                previous_image: root.previous_image
+                with_previous: True
+                on_press: root.events_callback("previous")
+            ActionOverflow:
+                id: action_overflow
+                overflow_image: root.overflow_image

@@ -1,0 +1,25 @@
+[
+{ "type": "title",
+  "title": "%s" },
+
+{ "type": "options",
+  "title": "%s",
+  "desc": "%s",
+  "section": "Theme",
+  "key": "theme",
+  "options": ["%s"] },
+
+{ "type": "bool",
+  "title": "%s",
+  "desc":  "%s",
+  "section": "Theme",
+  "key": "edit_theme",
+  "true": "auto" },
+
+{ "type": "bool",
+  "title": "%s",
+  "desc":  "%s",
+  "section": "Theme",
+  "key": "create_theme",
+  "true": "auto" }
+]

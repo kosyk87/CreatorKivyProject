@@ -1,0 +1,240 @@
+#! /usr/bin/python3.4
+# -*- coding: utf-8 -*-
+#
+# program.py
+#
+
+import os
+import sys
+import webbrowser
+import traceback
+
+try:
+    import kivy
+    kivy.require('1.9.2')
+
+    from kivy.app import App
+    from kivy.utils import platform
+    from kivy.uix.screenmanager import Screen, FadeTransition
+    from kivy.core.window import Window
+    from kivy.config import ConfigParser
+    from kivy.clock import Clock
+    from kivy.properties import ObjectProperty, StringProperty, NumericProperty
+
+    # Макеты интерфейса.
+    from Libs.uix.kdialog import KDialog  # ADialog, FDialog, CDialog
+    from Libs.uix.startscreen import StartScreen
+
+    # Классы программы.
+    from Libs import programclass as prog_class
+
+    from Libs import programdata as core
+    # from Libs.manifest import Manifest
+except Exception:
+    raise Exception(traceback.format_exc())
+
+
+__version__ = '0.0.1'
+
+if not os.path.exists('{}/program.ini'.format(core.prog_path)) or open(
+        '{}/program.ini'.format(core.prog_path)).read() == '':
+    language = 'russian'
+else:
+    config = ConfigParser()
+    config.read('{}/program.ini'.format(core.prog_path))
+
+    language = core.select_locale[config.get('General', 'language')]
+    del config
+
+
+class Program(App, prog_class.ProgClass):
+    """Функционал программы."""
+
+    start_screen = ObjectProperty(None)
+    ''':attr:`start_screen` is a :class:`~Libs.uix.startscreen.StartScreen`'''
+
+    screen = ObjectProperty(None)
+    ''':attr:`screen` is a :class:`~Libs.uix.startscreen.StartScreen`'''
+
+    window_text_size = NumericProperty(15)
+
+    def __init__(self, **kvargs):
+        super(Program, self).__init__(**kvargs)
+        Window.bind(on_keyboard=self.events_program)
+
+        # Для области видимомти в programclass.
+        # self.FadeTransition = FadeTransition
+        # self.Screen = Screen
+        # self.Clock = Clock
+        # ----------------------------------
+        # self.KDialog = KDialog
+        # self.FileChooser = FileChooser
+        # self.AboutDialog = AboutDialog
+        # self.SelectColor = SelectColor
+        # ----------------------------------
+        # self.Manifest = Manifest
+        # self.core = core
+        # self.traceback = traceback
+
+    def get_application_config(self):
+        return super(Program, self).get_application_config(
+            '{}/program.ini'.format(core.prog_path))
+
+    def build_config(self, config):
+        config.adddefaultsection('General')
+        config.setdefault('General', 'language', 'Русский')
+
+        config.adddefaultsection("Theme")
+        config.setdefault("Theme", "theme", "blue_orange")
+        config.setdefault("Theme", "edit_theme", "0")
+        config.setdefault("Theme", "create_theme", "0")
+
+    def build_settings(self, settings):
+        general_settings = open('{}/Data/Settings/general.json'.format(
+            core.prog_path)).read()
+        general_data = general_settings.format(
+            language=core.string_lang_setting_language,
+            title=core.string_lang_setting_language_title,
+            desc=core.string_lang_setting_language_desc,
+            russian=core.string_lang_setting_language_russian,
+            english=core.string_lang_setting_language_english)
+        settings.add_json_panel(
+            core.string_lang_general, self.config, data=general_data)
+
+        """
+        theme_settings = open('{}/Data/Settings/theme.json'.format(
+            core.prog_path)).read()
+        theme_data = theme_settings % (
+            core.string_lang_setting_chek_themes,
+            core.string_lang_setting_chek_themes_title,
+            core.string_lang_setting_chek_themes_desc,
+            '", "'.join(os.listdir('{}/Data/Themes'.format(core.prog_path))),
+            core.string_lang_setting_edit_themes_title,
+            core.string_lang_setting_edit_themes_desc,
+            core.string_lang_setting_create_themes_title,
+            core.string_lang_setting_create_themes_desc)
+        settings.add_json_panel(
+            core.string_lang_theme, self.config, data=theme_data)
+        """
+
+    def build(self):
+        self.title = core.string_lang_title[:-1]  # заголовок окна программы
+        self.icon = 'Data/Images/logo.png'  # иконка окна программы
+        # self.use_kivy_settings = False
+
+        self.config = ConfigParser()
+        self.config.read('{}/program.ini'.format(core.prog_path))
+        self.set_variable_from_settings()
+
+        # Домашняя страница клиента.
+        self.start_screen = \
+            StartScreen(title_previous=core.string_lang_title[:-1],
+                        buttons_group=[core.string_lang_settings,
+                                       core.string_lang_license,
+                                       core.string_lang_exit_key],
+                        events_callback=self.events_program)
+        self.screen = self.start_screen
+
+        return self.start_screen
+
+    def set_variable_from_settings(self):
+        self.language = core.select_locale[self.config.get(
+            "General", "language")]
+
+    def events_program(self, *args):
+        """Вызывается при выборе одного из пунктов меню программы."""
+
+        if len(args) == 2:  # нажата ссылка
+            event = args[1].encode('utf-8')
+        else:  # нажата кнопка
+            try:
+                _args = args[0]
+                event = _args if isinstance(_args, str) else _args.id
+            except AttributeError:  # ввод текста в форму отправки сообщений
+                return
+
+        if event == core.string_lang_settings:
+            self.open_settings()
+        elif event == core.string_lang_exit_key:
+            self.exit_program()
+        elif event == core.string_lang_license:
+            self.show_license()
+
+    def back_screen(self):
+        """Показываем предыдущий и удаляем из списка текущий экран."""
+
+        if len(self.screen.screen_manager.screens) != 1:
+            self.screen.screen_manager.screens.pop()
+        self.screen.screen_manager.current = \
+            self.screen.screen_manager.screen_names[-1]
+        # Устанавливаем имя предыдущего экрана.
+        self.screen.action_previous.title = self.screen.screen_manager.current
+
+    def show_license(self, *args):
+        def choice_language_license(*args):
+            if len(args) > 1:  # выбраны ссылки в тексте
+                click_link = args[1]
+                webbrowser.open(click_link)
+            else:
+                on_language = args[0]  # кнопки 'На русском/На английском'
+                progress = KDialog().show(text=core.string_lang_wait)
+                Clock.schedule_once(
+                    lambda *args: show_license(progress, on_language), 0.3)
+
+        def show_license(progress, on_language):
+            path_to_license = 'LICENSE/GNU_LICENSE_{}.rst'.format(
+                core.dict_language[on_language])
+            if not os.path.exists(path_to_license):
+                KDialog().show(text=core.string_lang_not_license,
+                               text_button_ok=core.string_lang_yes,
+                               param='query')
+                progress.dismiss()
+                return
+
+            text_license = open(path_to_license).read()
+            KDialog(underline_color='a6b4bcff').show(
+                title='GNU LICENSE:', text=text_license, rst=True)
+            progress.dismiss()
+
+        KDialog(answer_callback=choice_language_license).show(
+            text=core.string_lang_desc_license,
+            text_button_ok=core.string_lang_on_russian,
+            text_button_no=core.string_lang_on_english, param="query",
+            auto_dismiss=True)
+
+    def show_about(self):
+        def events_callback(instance_label, text_link):
+            def answer_callback(answer):
+                pass
+
+            pass
+
+        AboutDialog(events_callback=events_callback,
+                    background_image=core.theme_decorator_window,
+                    name_program=core.string_lang_title[:-1])
+
+    def exit_program(self, *args):
+        def callback(answer):
+            if answer == core.string_lang_yes:
+                sys.exit(0)
+
+        KDialog(answer_callback=callback).show(
+            text_button_ok=core.string_lang_yes,
+            text_button_no=core.string_lang_no, param='query')
+
+    def on_config_change(self, config, section, key, value):
+        """Вызывается при выборе одного из пункта настроек программы."""
+
+        def select_callback(*args):
+            pass
+
+        if key == 'language':
+            # self.self.language = value
+            print(value)
+
+    def on_pause(self):
+        """Ставит приложение на 'паузу' при выхоже из него.
+        В противном случае запускает программу по заново"""
+
+        return True
+
