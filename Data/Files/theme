@@ -1,25 +1,23 @@
 [
-{ "type": "title",
-  "title": "%s" },
+{{ "type": "title",
+  "title": "{settings_color_theme}" }},
 
-{ "type": "options",
-  "title": "%s",
-  "desc": "%s",
+{{ "type": "options",
+  "title": "{title_select_theme}",
+  "desc": "{desc_select_theme}",
   "section": "Theme",
   "key": "theme",
-  "options": ["%s"] },
+  "options": ["{name_theme}"] }},
 
-{ "type": "bool",
-  "title": "%s",
-  "desc":  "%s",
+{{ "type": "bool",
+  "title": "{title_edit_theme}",
+  "desc":  "{desc_edit_theme}",
   "section": "Theme",
-  "key": "edit_theme",
-  "true": "auto" },
+  "key": "edit_theme" }},
 
-{ "type": "bool",
-  "title": "%s",
-  "desc":  "%s",
+{{ "type": "bool",
+  "title": "{title_create_theme}",
+  "desc":  "{desc_create_theme}",
   "section": "Theme",
-  "key": "create_theme",
-  "true": "auto" }
+  "key": "create_theme" }}
 ]

@@ -117,7 +117,7 @@ def load_plugin(app):
 
             # Запускаем плагин, если он присутствует в списке активированых.
             if name in plugin_list:
-                execfile(os.path.join(path, '__init__.py'),
-                         {'app': app, 'path': path})
+                exec(open(os.path.join(path, '__init__.py')).read(),
+                     {'app': app, 'path': path})
         except Exception:
             raise Exception(traceback.format_exc())

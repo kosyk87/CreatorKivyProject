@@ -25,6 +25,29 @@ string_lang_on_english = 'На английском'
 
 #------------------------------------------------------------------------------
 
+string_lang_plugin = 'Плагины'
+string_lang_plugin_enable = 'Подключить'
+string_lang_plugin_switch_off = 'Отключить'
+string_lang_not_install_plugin = 'Нет установленных плагинов!'
+string_lang_plugin_activate = \
+'''[color=#text_color]Плагин [color=#key_text_color]\'{NAME_PLUGIN}\'
+[color=#text_color]подключен!
+[color=#text_color]И будет импортирован в клиент после следующего запуска.'''
+
+string_lang_plugin_warning = \
+'''[color=#text_color]Плагин [color=#key_text_color]\'{NAME_PLUGIN}\'
+[color=#text_color]требует [color=#key_text_color]{NAME_PROJECT} [color=#text_color]по крайней мере, версии [color=#link_color]{VERSION}.
+[color=#text_color]Ваша текущая версия - [color=#link_color]{VERSION}.'''
+
+string_lang_plugin_warning_support = \
+'''[color=#text_color]Плагин [color=#key_text_color]\'{NAME_PLUGIN}\'[color=#text_color]
+поддерживает [color=#key_text_color]{NAME_PROJECT} [color=#text_color]до версии [color=#link_color]{VERSION}.
+[color=#text_color]Ваша текущая версия - [color=#link_color]{VERSION}.
+
+[color=#text_color]Подключить?'''
+
+#------------------------------------------------------------------------------
+
 string_lang_settings = 'Настройки'
 string_lang_general = 'Общие'
 string_lang_theme = 'Темы'

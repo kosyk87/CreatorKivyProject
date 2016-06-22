@@ -69,7 +69,8 @@ try:
     Logger.info('Создание файла языковой локализации russian.txt ...')
     open('{}/russian.txt'.format(dir_language), 'w').write(open(
         '{}/Data/Files/russian'.format(prog_path)).read().format(
-        NAME_PROJECT=name_project, REPOSITORY=repo_project))
+        NAME_PROJECT=name_project, REPOSITORY=repo_project, NAME_PLUGIN='{}',
+        VERSION='{}'))
 
     Logger.info('Создание файла README.md ...')
     open('{}/README.md'.format(full_path_to_project), 'w').write(

@@ -22,14 +22,14 @@ try:
     from kivy.properties import ObjectProperty, StringProperty, NumericProperty
 
     # Макеты интерфейса.
-    from Libs.uix.kdialog import KDialog  # ADialog, FDialog, CDialog, PDialog
+    from Libs.uix.kdialog import KDialog, BDialog  # ADialog, FDialog, CDialog, PDialog
     from Libs.uix.startscreen import StartScreen
 
     # Классы программы.
     from Libs import programclass as prog_class
 
     from Libs import programdata as core
-    # from Libs.manifest import Manifest
+    from Libs.manifest import Manifest
 except Exception:
     raise Exception(traceback.format_exc())
 
@@ -47,7 +47,7 @@ else:
     del config
 
 
-class Program(App, prog_class.ProgClass):
+class Program(App, prog_class.ProgClass, prog_class.ShowPlugin):
     """Функционал программы."""
 
     start_screen = ObjectProperty(None)
@@ -67,15 +67,16 @@ class Program(App, prog_class.ProgClass):
         # self.Screen = Screen
         # self.Clock = Clock
         # ----------------------------------
-        # self.KDialog = KDialog
+        self.KDialog = KDialog
+        self.BDialog = BDialog
         # self.ADialog = ADialog
         # self.FDialog = FDialog
         # self.CDialog = CDialog
         # self.PDialog = PDialog
         # ----------------------------------
-        # self.Manifest = Manifest
-        # self.core = core
+        self.Manifest = Manifest
         # self.traceback = traceback
+        self.core = core
         self.name_program = core.string_lang_title[:-1]
 
     def get_application_config(self):
@@ -103,21 +104,20 @@ class Program(App, prog_class.ProgClass):
         settings.add_json_panel(
             core.string_lang_general, self.config, data=general_data)
 
-        """
         theme_settings = open('{}/Data/Settings/theme.json'.format(
             core.prog_path)).read()
-        theme_data = theme_settings % (
-            core.string_lang_setting_chek_themes,
-            core.string_lang_setting_chek_themes_title,
-            core.string_lang_setting_chek_themes_desc,
-            '", "'.join(os.listdir('{}/Data/Themes'.format(core.prog_path))),
-            core.string_lang_setting_edit_themes_title,
-            core.string_lang_setting_edit_themes_desc,
-            core.string_lang_setting_create_themes_title,
-            core.string_lang_setting_create_themes_desc)
+        theme_data = theme_settings.format(
+            settings_color_theme=core.string_lang_setting_chek_themes,
+            title_select_theme=core.string_lang_setting_chek_themes_title,
+            desc_select_theme=core.string_lang_setting_chek_themes_desc,
+            name_theme='", "'.join(os.listdir('{}/Data/Themes'.format(
+                core.prog_path))),
+            title_edit_theme=core.string_lang_setting_edit_themes_title,
+            desc_edit_theme=core.string_lang_setting_edit_themes_desc,
+            title_create_theme=core.string_lang_setting_create_themes_title,
+            desc_create_theme=core.string_lang_setting_create_themes_desc)
         settings.add_json_panel(
             core.string_lang_theme, self.config, data=theme_data)
-        """
 
     def build(self):
         self.title = self.name_program  # заголовок окна программы
@@ -132,6 +132,7 @@ class Program(App, prog_class.ProgClass):
         self.start_screen = \
             StartScreen(title_previous=self.name_program,
                         buttons_group=[core.string_lang_settings,
+                                       core.string_lang_plugin,
                                        core.string_lang_license,
                                        core.string_lang_exit_key],
                         events_callback=self.events_program)
@@ -161,6 +162,9 @@ class Program(App, prog_class.ProgClass):
             self.exit_program()
         elif event == core.string_lang_license:
             self.show_license()
+        elif event == core.string_lang_plugin:
+            self.show_plugins()
+
 
     def back_screen(self):
         """Показываем предыдущий и удаляем из списка текущий экран."""
@@ -213,9 +217,8 @@ class Program(App, prog_class.ProgClass):
 
             pass
 
-        AboutDialog(events_callback=events_callback,
-                    background_image=core.theme_decorator_window,
-                    name_program=self.name_program)
+        ADialog(events_callback=events_callback,
+                name_program=self.name_program)
 
     def exit_program(self, *args):
         def callback(answer):
@@ -224,6 +227,7 @@ class Program(App, prog_class.ProgClass):
 
         KDialog(answer_callback=callback,
                 title=self.name_program).show(
+            text=core.string_lang_exit,
             text_button_ok=core.string_lang_yes,
             text_button_no=core.string_lang_no, param='query')
 
