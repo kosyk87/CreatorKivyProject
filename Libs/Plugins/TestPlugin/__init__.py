@@ -12,8 +12,8 @@ from Libs.uix.kdialog import KDialog
 def test_plugin(interval):
     action_view = app.start_screen.action_view
     item_button = \
-        ActionButton(text="Plugins", id="plugins", on_press=events_screen,
-                     icon="{}/Plugins/TestPlugin/button.png".format(
+        ActionButton(id="plugins", on_press=events_screen,
+                     icon="{}/Libs/Plugins/TestPlugin/button.png".format(
                          app.directory))
     action_view.add_widget(item_button, index=-1)
     action_view.add_widget(ActionSeparator(), index=-1)
