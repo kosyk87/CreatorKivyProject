@@ -23,16 +23,16 @@ class ShowPlugin(object):
 
                     if answer == self.core.string_lang_yes:
                         manifest = \
-                            self.Manifest('{}/Plugins/{}/manifest.txt'.format(
+                            self.Manifest('{}/Libs/Plugins/{}/manifest.txt'.format(
                                 self.directory, name_plugin))
                         manifest['app-version-max'] = app_version
-                        manifest.save('{}/Plugins/{}/manifest.txt'.format(
+                        manifest.save('{}/Libs/Plugins/{}/manifest.txt'.format(
                             self.directory, name_plugin))
                     elif answer == self.core.string_lang_no:
                         return
 
                     list_activate_plugins.append(name_plugin)
-                    open('{}/Plugins/plugins_list.list'.format(
+                    open('{}/Libs/Plugins/plugins_list.list'.format(
                         self.directory), 'w').write(str(list_activate_plugins))
 
                     if answer == 'Warning':
@@ -77,12 +77,12 @@ class ShowPlugin(object):
                         save_activate_plugin('Ok')
                 elif answer == self.core.string_lang_plugin_switch_off:
                     list_activate_plugins.remove(name_plugin)
-                    open('{}/Plugins/plugins_list.list'.format(
+                    open('{}/Libs/Plugins/plugins_list.list'.format(
                         self.directory), 'w').write(str(list_activate_plugins))
 
             name_plugin = args[0].id
 
-            if not os.path.exists('{}/Plugins/{}/README.rst'.format(
+            if not os.path.exists('{}/Libs/Plugins/{}/README.rst'.format(
                     self.directory, name_plugin)):
                 info_plugin = \
                     '[color=ffffff]{} [color=#ff7f32]\'{}\'[/color]\n' \
@@ -95,7 +95,7 @@ class ShowPlugin(object):
                         self.started_plugins[name_plugin]['plugin-author'],
                         self.started_plugins[name_plugin]['plugin-mail'])
             else:
-                info_plugin = open('{}/Plugins/{}/README.rst'.format(
+                info_plugin = open('{}/Libs/Plugins/{}/README.rst'.format(
                     self.directory, name_plugin)).read()
 
             window = \
@@ -108,11 +108,11 @@ class ShowPlugin(object):
 
         list_all_plugins = []
         list_activate_plugins = eval(
-            open('{}/Plugins/plugins_list.list'.format(
+            open('{}/Libs/Plugins/plugins_list.list'.format(
                 self.directory)).read())
 
-        for plugin in os.listdir('{}/Plugins'.format(self.directory)):
-            if not os.path.isdir('{}/Plugins/{}'.format(
+        for plugin in os.listdir('{}/Libs/Plugins'.format(self.directory)):
+            if not os.path.isdir('{}/Libs/Plugins/{}'.format(
                     self.directory, plugin)):
                 continue
 
