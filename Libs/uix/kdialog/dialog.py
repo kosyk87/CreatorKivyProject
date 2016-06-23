@@ -36,6 +36,8 @@ class ImageButton(ButtonBehavior, Image):
 
 
 class Dialog(Popup):
+    '''Базоывй класс.'''
+
     retrieve_callback = ObjectProperty(_pass)
     '''Пользовательская функция, вызываемая при работе прогресса.
 
@@ -116,6 +118,7 @@ class Dialog(Popup):
 
     dp = ObjectProperty(metrics.dp)
     sp = ObjectProperty(metrics.sp)
+    root = root
 
     def __init__(self, **kvargs):
         super(Dialog, self).__init__(**kvargs)

@@ -4,8 +4,6 @@
 # kdialog.py
 #
 
-import os
-
 try:
     from kivy.uix.widget import Widget
     from kivy.uix.boxlayout import BoxLayout
@@ -29,13 +27,9 @@ except Exception as text_error:
 
 __version__ = '1.0.0'
 
-root = os.path.split(__file__)[0]
-if root == '':
-    root = os.getcwd()
-
 
 class KDialog(Dialog):
-    Builder.load_file('{}/kv/kdialog.kv'.format(root))
+    Builder.load_file('{}/kv/kdialog.kv'.format(Dialog.root))
 
     def __init__(self, **kvargs):
         super(KDialog, self).__init__(**kvargs)
@@ -100,7 +94,7 @@ class KDialog(Dialog):
         self.param = param
         button = None
         if not image:
-            image = '{}/data/loading.gif'.format(root)
+            image = '{}/data/loading.gif'.format(self.root)
 
         if self.param not in ['info', 'query', 'logpass', 'text',
                               'loaddialog']:

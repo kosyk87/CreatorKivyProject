@@ -17,7 +17,10 @@ kdialog
 
 ЗАПУСК ПРИМЕРОВ
 ----------------
-python [`'kdialog.py', 'adialog.py', 'cdialog.py', 'fdialog.py'`]
+
+```python
+python [`'kdialog.py', 'adialog.py', 'cdialog.py', 'fdialog.py', 'bdialog', 'pdialog'`]
+```
 
 ВЕРСИЯ
 -------
@@ -63,7 +66,10 @@ kdialog
 
 Импорт модуля в проект
 ----------------------
-`from kdialog import class_module`
+
+```python
+from kdialog import class_module
+```
 
 Описание класса KDialog
 ------------------------
@@ -83,11 +89,15 @@ kdialog
 Пример окна с параметром 'info'
 -------------------------------
 
+```python
     KDialog().show(text='Твой текст!', param='info')
+```
 
 или
 
+```python
     KDialog().show(text='Твой текст!')
+```
 
 ![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/KDialog/master/data/screenshots/info.png)
 
@@ -101,6 +111,7 @@ kdialog
 при создании экземпляра класса функцию-обработчик. Вы можете использовать
 три управляющие кнопки **text_button_ok, text_button_no, text_button_cancel**:
 
+```python
     def dialog_show(self, *args):
         def dialog_answer_handler(answer):
             print(answer)
@@ -108,10 +119,12 @@ kdialog
         KDialog(answer_callback=dialog_answer_handler).show(
             text_button_ok='Yes', text_button_no='No',
             text=__doc__, param='query')
+```
 
 Также для всех типов окон вы можете указать функцию, которая будет вызвана
 при закрытии окна, передав ее в параметр **dismiss_callback**:
 
+```python
     def dialog_show(self, *args):
         def dialog_answer_handler(answer):
             print(answer)
@@ -123,34 +136,40 @@ kdialog
                 dismiss_callback=dialog_dismiss_handler).show(
             text_button_ok='Yes', text_button_no='No',
             text=__doc__, param='query')
+```
 
 ![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/KDialog/master/data/screenshots/query.png)
 
 Вы можете использовать виждет RstDocument для вывода текстовой информации.
 Укажите дополнительный параметр **rst=True** при вызове окна:
 
+```python
     KDialog(answer_callback=dialog_answer_handler,
             dismiss_callback=dialog_dismiss_handler).show(
         text_button_ok='Yes', text_button_no='No',
         text=__doc__, param='query', rst=True)
+```
 
 ![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/KDialog/master/data/screenshots/rst.png)
 
 Пример окна с параметром 'text'
 --------------------------------
 
+```python
         def show_dialog(self, *args):
             def edit_status(answer):
                 print(answer)
 
             KDialog(answer_callback=edit_status).show(
                 text_button_ok='Yes', param='text')
+```
 
 ![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/KDialog/master/data/screenshots/text.png)
 
 Пример окна с параметром 'logpass'
 ----------------------------------
 
+```python
         def show_dialog(self, *args):
             def set_login_password(data):
                 """
@@ -167,6 +186,7 @@ kdialog
 
             KDialog(answer_callback=set_login_password).show(
                 text_button_ok='Yes', param='logpass', password=True)
+```
 
 ![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/KDialog/master/data/screenshots/logpass.png)
 
@@ -176,6 +196,7 @@ kdialog
 Пример окна с параметром 'loaddialog'
 -------------------------------------
 
+```python
         def show_dialog(self, *args):
             def connection_to_server(*args):
                 import urllib
@@ -186,6 +207,7 @@ kdialog
 
             KDialog(progress_callback=connection_to_server).show(
                 param='loaddialog')
+```
 
 ![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/KDialog/master/data/screenshots/loaddialog.png)
 
@@ -204,6 +226,7 @@ kdialog
 Пример использования
 ---------------------
 
+```python
         def events_callback(self, instance_label, text_link):
             print(text_link)
 
@@ -280,6 +303,7 @@ kdialog
                     events_callback=self.events_callback,
                     logo_program=logo_program, info_program=info_program,
                     name_program=name_program)
+```
 
 ![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/KDialog/master/data/screenshots/about.png)
 
@@ -297,6 +321,7 @@ kdialog
 Пример использования
 ---------------------
 
+```python
         def select(self, *args):
             self.file_manager.dismiss()
 
@@ -310,6 +335,7 @@ kdialog
                 FDialog(events_callback=self.select, size_hint=(.5, .9),
                         filter='folder')
             return self.file_manager
+```
 
 ![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/KDialog/master/data/screenshots/fdialog.png)
 
@@ -320,12 +346,14 @@ kdialog
 Пример использования
 ---------------------
 
+```python
         def select(self, *args):
             print(args[0])
 
         def show_palette(self, *args):
             self.select_color = \
                 CDialog(events_callback=self.select, size_hint=(.8, .97))
+```
 
 ![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/KDialog/master/data/screenshots/cdialog.png)
 
@@ -339,13 +367,17 @@ kdialog
 **background_image_buttons** свои значения. Для фона окна это строка - путь 
 к изображению декоратора. По умолчанию это
 
+```python
     'data/decorator.png'
+```
 
-Для фона кнопок используйте словарь. По умолчанию это - 
-
+Для фона кнопок используйте словарь. По умолчанию это -
+ 
+```python
     background_image_buttons = (
         {0: 'data/button_ok.png', 1: 'data/button_no.png', 2: 'data/button_cancel.png'}
     )
+```
 
 Описание класса BDialog
 ------------------------
@@ -356,6 +388,7 @@ kdialog
 Передайте при инициализации класса BDialog параметру button_list список вида 
 ['Текст кнопки', 'путь к фону кнопки', ...]:
 
+```python
         def on_press(self, instance_button):
             print(instance_button.id)
 
@@ -370,6 +403,7 @@ kdialog
             BDialog(
                 events_callback=self.on_press, button_list=button_list,
                 hint_x=1.8, title='Пример окна BDialog').show()
+```
 
 ![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/KDialog/master/data/screenshots/bdialog.png)
 
@@ -380,6 +414,7 @@ kdialog
 Пример использования
 ---------------------
 
+```python
         def complete(self):
             '''Функция вызывается после окончания цикла прогресса.'''
 
@@ -413,6 +448,7 @@ kdialog
                         events_callback=self.download_cancel,
                         complete=self.complete)
             self.progress_load.show()
+```
 
 ![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/KDialog/master/data/screenshots/pdialog.png)
 

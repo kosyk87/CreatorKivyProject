@@ -53,6 +53,7 @@ class FDialog(Dialog):
             box.add_widget(SettingSpacer())
             box.add_widget(
                 Button(text=self.text_button_ok, size_hint=(1, .1),
+                       background_normal=self.background_image_buttons[0],
                        on_press=self.events_callback)
             )
             fdialog.filters = [self.is_dir]

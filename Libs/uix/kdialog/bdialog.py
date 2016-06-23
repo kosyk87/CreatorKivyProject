@@ -99,15 +99,8 @@ class BDialog(Dialog):
 
 
 if __name__ in ('__main__', '__android__'):
-    import os
-
     from kivy.uix.boxlayout import BoxLayout
     from kivy.base import runTouchApp
-
-
-    root = os.path.split(__file__)[0]
-    if root == '':
-        root = os.getcwd()
 
 
     class Test(BoxLayout):
@@ -126,7 +119,7 @@ if __name__ in ('__main__', '__android__'):
             for i in range(50):
                 button_list.append(
                     ['Text{0:3d}'.format(i),
-                     '{}/data/button_ok.png'.format(root)]
+                     '{}/data/button_ok.png'.format(Dialog.root)]
                 )
 
             BDialog(

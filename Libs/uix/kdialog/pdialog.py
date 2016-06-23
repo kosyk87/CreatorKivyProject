@@ -29,7 +29,7 @@ except Exception as text_error:
 __version__ = '1.0.0'
 
 
-class BDialog(Dialog):
+class PDialog(Dialog):
     complete = ObjectProperty(None)
     '''Функция для обработки событий окна.
 
@@ -76,7 +76,7 @@ class BDialog(Dialog):
     size_hint = ListProperty((.7, .5))
 
     def __init__(self, **kvargs):
-        super(BDialog, self).__init__(**kvargs)
+        super(PDialog, self).__init__(**kvargs)
 
         self.box = BoxLayout(orientation='vertical')
         self.label_one = Label(text='', size_hint=(1, .1), markup=True)
@@ -196,7 +196,7 @@ if __name__ in ('__main__', '__android__'):
 
         def show_progress(self, *args):
             self.progress_load = \
-                BDialog(title='Пример окна PDialog',
+                PDialog(title='Пример окна PDialog',
                         retrieve_callback=self.retrieve_callback,
                         events_callback=self.download_cancel,
                         complete=self.complete)

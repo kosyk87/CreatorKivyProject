@@ -4,8 +4,6 @@
 # adialog.py
 #
 
-import os
-
 try:
     from kivy.uix.boxlayout import BoxLayout
     from kivy.uix.label import Label
@@ -25,10 +23,6 @@ except Exception as text_error:
 
 
 __version__ = '1.0.0'
-
-root = os.path.split(__file__)[0]
-if root == '':
-    root = os.getcwd()
 
 
 class ADialog(Dialog):
@@ -55,7 +49,7 @@ class ADialog(Dialog):
 
     info_program = ListProperty([])
 
-    Builder.load_file('{}/kv/adialog.kv'.format(root))
+    Builder.load_file('{}/kv/adialog.kv'.format(Dialog.root))
 
     def __init__(self, **kvargs):
         super(ADialog, self).__init__(**kvargs)

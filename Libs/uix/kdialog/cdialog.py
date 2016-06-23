@@ -44,7 +44,9 @@ class CDialog(Dialog):
 
         box = BoxLayout(orientation='vertical')
         select_color = ColorPicker(hex_color=self.default_color)
-        button_select = Button(text=self.text_button_ok, size_hint=(1, .1))
+        button_select = \
+            Button(text=self.text_button_ok, size_hint=(1, .1),
+                   background_normal=self.background_image_buttons[0])
 
         box.add_widget(select_color)
         box.add_widget(Widget(size_hint=(None, .02)))

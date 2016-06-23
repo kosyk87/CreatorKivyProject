@@ -377,10 +377,11 @@ import kivy
 kivy.require('1.9.2')
 
 from . adialog import ADialog
-from . kdialog import KDialog
-from . fdialog import FDialog
-from . cdialog import CDialog
 from . bdialog import BDialog
+from . cdialog import CDialog
+from . fdialog import FDialog
+from . pdialog import PDialog
+from . kdialog import KDialog
 
 
 __version__ = '1.0.0'
