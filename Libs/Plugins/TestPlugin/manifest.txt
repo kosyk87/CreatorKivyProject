@@ -1,0 +1,7 @@
+App-Version-Max: 0.1
+App-Version-Min: 0.0
+Plugin-Name: Plugin
+Plugin-Version: 0.1
+Plugin-Package: plugin
+Plugin-Author: Virtuos86
+Plugin-mail: http://dimonvideo.ru/0/name/Virtuos86
