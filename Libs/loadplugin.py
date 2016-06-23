@@ -76,7 +76,7 @@ def load_plugin(app):
     """Загружает, верифицирует и запускает плагины."""
 
     plugins_path = \
-        '{}/Plugins'.format(os.path.split(os.path.abspath(sys.argv[0]))[0])
+        '{}/Libs/Plugins'.format(os.path.split(os.path.abspath(sys.argv[0]))[0])
     app.started_plugins = {}
 
     if not os.path.exists(plugins_path):
