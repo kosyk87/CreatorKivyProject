@@ -47,7 +47,7 @@ else:
     del config
 
 
-class Program(App, prog_class.ProgClass, prog_class.ShowPlugin):
+class Program(App, prog_class.ShowPlugin):
     """Функционал программы."""
 
     start_screen = ObjectProperty(None)
