@@ -6,21 +6,17 @@
 
 import os
 
-try:
-    from kivy.uix.boxlayout import BoxLayout
-    from kivy.uix.button import Button
-    from kivy.uix.widget import Widget
-    from kivy.uix.filechooser import FileChooserListView
-    from kivy.properties import StringProperty
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+from kivy.uix.filechooser import FileChooserListView
+from kivy.properties import StringProperty
 
-    try:
-        from . dialog import Dialog
-        from . dialog import SettingSpacer
-    except (ValueError, SystemError):
-        from dialog import Dialog
-        from dialog import SettingSpacer
-except Exception as text_error:
-    raise text_error
+try:
+    from . dialog import Dialog
+    from . dialog import SettingSpacer
+except (ValueError, SystemError):
+    from dialog import Dialog
+    from dialog import SettingSpacer
 
 
 __version__ = '0.0.1'

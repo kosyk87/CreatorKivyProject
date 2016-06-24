@@ -39,13 +39,11 @@
 import os
 import sys
 
-try:
-    from kivy.lang import Builder
-    from kivy.uix.floatlayout import FloatLayout
-    from kivy.uix.button import Button
-    from kivy.properties import ObjectProperty, BooleanProperty, StringProperty
-except Exception as text_error:
-    raise text_error
+
+from kivy.lang import Builder
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.button import Button
+from kivy.properties import ObjectProperty, BooleanProperty, StringProperty
 
 
 class BugReporter(FloatLayout):

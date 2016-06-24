@@ -4,22 +4,18 @@
 # adialog.py
 #
 
-try:
-    from kivy.uix.boxlayout import BoxLayout
-    from kivy.uix.label import Label
-    from kivy.lang import Builder
-    from kivy.properties import ListProperty, StringProperty
+from kivy.uix.label import Label
+from kivy.lang import Builder
+from kivy.properties import ListProperty, StringProperty
 
-    try:
-        from . dialog import Dialog
-        from . dialog import SettingSpacer
-        from . dialog import ImageButton
-    except (ValueError, SystemError):
-        from dialog import Dialog
-        from dialog import SettingSpacer
-        from dialog import ImageButton
-except Exception as text_error:
-    raise text_error
+try:
+    from . dialog import Dialog
+    from . dialog import SettingSpacer
+    from . dialog import ImageButton
+except (ValueError, SystemError):
+    from dialog import Dialog
+    from dialog import SettingSpacer
+    from dialog import ImageButton
 
 
 __version__ = '1.0.0'

@@ -15,14 +15,12 @@
 import os
 import sys
 
-try:
-    from kivy.uix.boxlayout import BoxLayout
-    from kivy.uix.actionbar import ActionButton, ActionGroup
-    from kivy.lang import Builder
-    from kivy.properties import (ObjectProperty, ListProperty, StringProperty,
-                                 DictProperty)
-except Exception as text_error:
-    raise text_error
+
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.actionbar import ActionButton, ActionGroup
+from kivy.lang import Builder
+from kivy.properties import (ObjectProperty, ListProperty, StringProperty,
+                             DictProperty)
 
 
 __version__ = '0.0.1'

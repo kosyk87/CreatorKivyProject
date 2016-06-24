@@ -63,13 +63,8 @@ import os
 import sys
 import traceback
 
-__version__ = '0.0.1'
-
-try:
-    from main import __version__
-    from .manifest import Manifest
-except Exception:
-    raise Exception(traceback.format_exc())
+from main import __version__
+from . manifest import Manifest
 
 
 def load_plugin(app):
