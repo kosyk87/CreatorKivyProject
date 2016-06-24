@@ -141,6 +141,8 @@ class Program(App, prog_class.ShowPlugin):
         return self.start_screen
 
     def set_variable_from_settings(self):
+        '''Установка значений переменных из файла настроек program.ini.'''
+
         self.language = core.select_locale[self.config.get(
             "General", "language")]
 
