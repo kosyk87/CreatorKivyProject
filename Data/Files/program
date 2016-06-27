@@ -38,7 +38,7 @@ __version__ = '0.0.1'
 
 
 class Program(App, prog_class.ShowPlugin):
-    """Функционал программы."""
+    '''Функционал программы.'''
 
     start_screen = ObjectProperty(None)
     ''':attr:`start_screen` is a :class:`~Libs.uix.startscreen.StartScreen`'''
@@ -77,10 +77,10 @@ class Program(App, prog_class.ShowPlugin):
         config.adddefaultsection('General')
         config.setdefault('General', 'language', 'Русский')
 
-        config.adddefaultsection("Theme")
-        config.setdefault("Theme", "theme", "blue_orange")
-        config.setdefault("Theme", "edit_theme", "0")
-        config.setdefault("Theme", "create_theme", "0")
+        config.adddefaultsection('Theme')
+        config.setdefault('Theme', 'theme', 'blue_orange')
+        config.setdefault('Theme', 'edit_theme', '0')
+        config.setdefault('Theme', 'create_theme', '0')
 
     def build_settings(self, settings):
         general_settings = open('{}/Data/Settings/general.json'.format(
@@ -134,10 +134,10 @@ class Program(App, prog_class.ShowPlugin):
         '''Установка значений переменных из файла настроек program.ini.'''
 
         self.language = core.select_locale[self.config.get(
-            "General", "language")]
+            'General', 'language')]
 
     def events_program(self, *args):
-        """Вызывается при выборе одного из пунктов меню программы."""
+        '''Вызывается при выборе одного из пунктов меню программы.'''
 
         if len(args) == 2:  # нажата ссылка
             event = args[1].encode('utf-8')
@@ -159,7 +159,7 @@ class Program(App, prog_class.ShowPlugin):
 
 
     def back_screen(self):
-        """Показываем предыдущий и удаляем из списка текущий экран."""
+        '''Показываем предыдущий и удаляем из списка текущий экран.'''
 
         if len(self.screen.screen_manager.screens) != 1:
             self.screen.screen_manager.screens.pop()
@@ -199,7 +199,7 @@ class Program(App, prog_class.ShowPlugin):
                 answer_callback=choice_language_license).show(
             text=core.string_lang_desc_license,
             text_button_ok=core.string_lang_on_russian,
-            text_button_no=core.string_lang_on_english, param="query",
+            text_button_no=core.string_lang_on_english, param='query',
             auto_dismiss=True)
 
     def show_about(self):
@@ -224,7 +224,7 @@ class Program(App, prog_class.ShowPlugin):
             text_button_no=core.string_lang_no, param='query')
 
     def on_config_change(self, config, section, key, value):
-        """Вызывается при выборе одного из пункта настроек программы."""
+        '''Вызывается при выборе одного из пункта настроек программы.'''
 
         def select_callback(*args):
             pass
@@ -234,8 +234,8 @@ class Program(App, prog_class.ShowPlugin):
             print(value)
 
     def on_pause(self):
-        """Ставит приложение на 'паузу' при выхоже из него.
-        В противном случае запускает программу по заново"""
+        '''Ставит приложение на 'паузу' при выхоже из него.
+        В противном случае запускает программу по заново'''
 
         return True
 
