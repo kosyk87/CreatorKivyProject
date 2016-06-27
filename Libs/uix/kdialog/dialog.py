@@ -77,7 +77,14 @@ class Dialog(Popup):
     '''Декоратор окна.
 
     :attr:`background` is a :class:`~kivy.properties.StringProperty`
-    and defaults to 'atlas://data/images/defaulttheme/modalview-background'.
+    and defaults to 'data/decorator.png'.
+    '''
+
+    text_input = StringProperty('{}/data/text_input.png'.format(root))
+    '''Декоратор поля ввода.
+
+    :attr:`text_input` is a :class:`~kivy.properties.StringProperty`
+    and defaults to 'data/text_input.png'.
     '''
 
     background_image_buttons = DictProperty(

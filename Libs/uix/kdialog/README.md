@@ -452,6 +452,26 @@ from kdialog import class_module
 
 ![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/KDialog/master/data/screenshots/pdialog.png)
 
+Пример окна с параметром 'check'
+-------------------------------------
+
+Для того, чтобы в окно был добавлен чекбокс, укажите параметр **check=True**
+и подпишите его - **check_text='Больше не показывать'**.
+
+```python
+    def dialog_show(self, *args):
+        def dialog_answer_handler(answer):
+            print(answer)
+
+        KDialog(title='Пример окна с параметром `check`',
+                answer_callback=dialog_answer_handler).show(
+            text='Нажмите `OK...`', check_text='Больше не показывать',
+            param='query', text_button_ok='OK', check=True,
+            auto_dismiss=True)
+```
+
+![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/KDialog/master/data/screenshots/check.png)
+
 КОНТАКТЫ
 ---------
 **Email**: `gorodage@gmail.com`

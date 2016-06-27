@@ -4,23 +4,27 @@
 # kdialog.py
 #
 
-from kivy.uix.widget import Widget
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
-from kivy.uix.image import Image
-from kivy.uix.rst import RstDocument
-from kivy.core.window import Window
-from kivy.clock import Clock
-from kivy.lang import Builder
-
 try:
-    from . dialog import Dialog
-    from . dialog import SettingSpacer
-except (ValueError, SystemError):
-    from dialog import Dialog
-    from dialog import SettingSpacer
+    from kivy.uix.widget import Widget
+    from kivy.uix.boxlayout import BoxLayout
+    from kivy.uix.checkbox import CheckBox
+    from kivy.uix.button import Button
+    from kivy.uix.label import Label
+    from kivy.uix.textinput import TextInput
+    from kivy.uix.image import Image
+    from kivy.uix.rst import RstDocument
+    from kivy.core.window import Window
+    from kivy.clock import Clock
+    from kivy.lang import Builder
+
+    try:
+        from . dialog import Dialog
+        from . dialog import SettingSpacer
+    except (ValueError, SystemError):
+        from dialog import Dialog
+        from dialog import SettingSpacer
+except Exception as text_error:
+    raise text_error
 
 
 __version__ = '1.0.0'
@@ -46,12 +50,20 @@ class KDialog(Dialog):
             height=lambda *args: self._update_box_content_size(args)
         )
 
-    def show(self, text='Your text message!', rst=False,
-             text_button_ok=None, text_button_no=None, text_button_cancel=None,
-             image=None, param='info', password=False, auto_dismiss=False):
+    def show(self, text='Your text message!', check_text='',
+                   rst=False, check=False,
+                   text_button_ok=None,
+                   text_button_no=None,
+                   text_button_cancel=None,
+                   image=None, param='info',
+                   password=False,
+                   auto_dismiss=False):
         '''
         :param text: текст окна;
         :type text: str;
+
+        :param check_text: текст чекбокса;
+        :type check_text: str;
 
         :param text_button_ok: текст кнопки;
         :type text_button_ok: str;
@@ -78,6 +90,9 @@ class KDialog(Dialog):
         :param rst: выводить текст на виджет RstDocument;
         :type rst: boolean;
 
+        :param check: использовать ли в окне чекбос;
+        :type check: boolean;
+
         '''
 
         def create_button(name_button, background_image_button):
@@ -89,13 +104,13 @@ class KDialog(Dialog):
             return True
 
         self.rst = rst
+        self.check = check
         self.param = param
         button = None
+
         if not image:
             image = '{}/data/loading.gif'.format(self.root)
-
-        if self.param not in ['info', 'query', 'logpass', 'text',
-                              'loaddialog']:
+        if self.param not in ['info', 'query', 'logpass', 'text', 'loaddialog']:
             self.param = 'info'
 
         if self.param == 'info':
@@ -128,7 +143,8 @@ class KDialog(Dialog):
                               font_size=self.sp(self.base_font_size),
                               font_name=self.base_font_name)
                     self.message.bind(
-                        size=lambda *args: self._update_label_size(args))
+                        size=lambda *args: self._update_label_size(args)
+                    )
                     self.box_content.add_widget(self.message)
             else:
                 self.message = \
@@ -153,7 +169,9 @@ class KDialog(Dialog):
                 self.input_dialog_double = \
                     TextInput(input_type=param, password=password,
                               size_hint_y=None, height=self.dp(40),
-                              hint_text='Login', ultiline=False)
+                              hint_text='Login', multiline=False,
+                              background_normal=self.text_input,
+                              background_active=self.text_input)
                 self.input_dialog_double.bind(on_press=self._answer_user)
                 self.box_root.add_widget(self.input_dialog_double)
 
@@ -161,7 +179,9 @@ class KDialog(Dialog):
             self.input_dialog = \
                 TextInput(input_type=param, password=password,
                           hint_text=hint_text, multiline=False,
-                          size_hint_y=None, height=self.dp(40))
+                          size_hint_y=None, height=self.dp(40),
+                          background_normal=self.text_input,
+                          background_active=self.text_input)
             self.input_dialog.bind(on_press=self._answer_user)
             self.box_root.add_widget(self.input_dialog)
 
@@ -169,6 +189,23 @@ class KDialog(Dialog):
             if self.param == 'loaddialog':
                 pass
             else:
+                if check:
+                    box_check = BoxLayout(size_hint_y=None, height=self.dp(40))
+                    label_check = \
+                        Label(id='check', text=check_text, size_hint=(1, None),
+                              font_size=self.sp(self.base_font_size),
+                              font_name=self.base_font_name, markup=True,
+                              height=18)
+                    label_check.bind(
+                        size=lambda *args: self._update_label_size(args)
+                    )
+                    self.checkbox = \
+                        CheckBox(active=False, size_hint_y=.5,
+                                 size_hint_x=.1)
+
+                    box_check.add_widget(self.checkbox)
+                    box_check.add_widget(label_check)
+                    self.box_root.add_widget(box_check)
                 self.box_root.add_widget(Widget(size_hint=(None, .03)))
                 self.box_root.add_widget(SettingSpacer())
                 self.box_root.add_widget(Widget(size_hint=(None, .03)))
@@ -192,7 +229,11 @@ class KDialog(Dialog):
                 elif self.param == 'text':
                     self.height = self.dp(170)
                 else:
-                    self.height = self.dp(150) if height < self.dp(150) else height
+                    if self.param == 'query' and self.check:
+                        h = self.dp(190)
+                    else:
+                        h = self.dp(150)
+                    self.height = h if height < h else height
         else:
             if self.rst:
                 self.height = self.dp(400)
@@ -202,10 +243,15 @@ class KDialog(Dialog):
 
     def _update_label_size(self, *args):
         label = args[0][0]
-        label.height = label.texture_size[1]
+        if label.id == 'check':
+            pass
+        else:
+            label.height = label.texture_size[1]
 
         if self.param == 'loaddialog':
             label.text_size = (label.width - 30, 50)
+        elif self.param == 'query' and self.check:
+            label.text_size = (label.width, None)
         else:
             label.text_size = (label.width - 30, None)
 
@@ -218,11 +264,15 @@ class KDialog(Dialog):
                           'datetime', 'number', 'logpass']:
             if self.param == 'logpass':
                 self.answer_callback(
-                    [self.input_dialog_double.text, self.input_dialog.text])
+                    (self.input_dialog_double.text, self.input_dialog.text)
+                )
             else:
                 self.answer_callback(self.input_dialog.text)
         elif self.param == 'query':
-            self.answer_callback(args[0].text)
+            if self.param == 'query' and self.check:
+                self.answer_callback((args[0].text, self.checkbox.active))
+            else:
+                self.answer_callback(args[0].text)
         self.dismiss()
 
 
@@ -239,7 +289,8 @@ if __name__ in ('__main__', '__android__'):
             super(Test, self).__init__(cols=2, spacing=5, padding=5)
 
             for text in ['Demo `info`', 'Demo `query`', 'Demo `text`',
-                         'Demo `logpass`', 'Demo `rst`', 'Demo `loaddialog`']:
+                         'Demo `logpass`', 'Demo `rst`', 'Demo `loaddialog`',
+                         'Demo `check`']:
                 self.add_widget(Button(text=text, on_press=self.on_click))
 
         def on_click(self, *args):
@@ -282,25 +333,41 @@ if __name__ in ('__main__', '__android__'):
                 window = KDialog(title='Пример окна с параметром `loaddialog`')
                 window.show(text='Loading [color=#2fa7d4ff] Page...',
                             param='loaddialog', auto_dismiss=True)
+            # --------------------------check---------------------------------
+            elif text == 'Demo `check`':
+                window = KDialog(title='Пример окна с параметром `check`',
+                                 answer_callback=self.answer_callback)
+                window.show(
+                    text='Нажмите `OK...`', check_text='Больше не показывать',
+                    param='query', text_button_ok='OK', check=True,
+                    auto_dismiss=True
+                )
 
         def answer_callback(self, answer):
-            if isinstance(answer, list):
-                if ''.join(answer) == '':
-                    return
-
-                login, password = answer
+            if isinstance(answer, tuple):
+                if isinstance(answer[1], bool):
+                    login, password = answer
+                    password = {1: 'True', 0: 'False'}[password]
+                    log = 'Press'
+                    pasw = 'Check'
+                else:
+                    if ''.join(answer) == '':
+                        return
+                    login, password = answer
+                    log = 'Login'
+                    pasw = 'Password'
                 if not PY2:
                     answer = \
-                        '[color=#2fa7d4ff]Login[/color] - {}\n' \
-                        '[color=#2fa7d4ff]Password[/color] - {}'.format(
-                            login if login != '' else 'None',
-                            password if password != '' else 'None')
+                        '[color=#2fa7d4ff]{}[/color] - {}\n' \
+                        '[color=#2fa7d4ff]{}[/color] - {}'.format(
+                            log, login if login != '' else 'None',
+                            pasw, password if password != '' else 'None')
                 else:
                     answer = \
-                        u'[color=#2fa7d4ff]Login[/color] - {}\n' \
-                        u'[color=#2fa7d4ff]Password[/color] - {}'.format(
-                            login if login != u'' else u'None',
-                            password if password != u'' else u'None')
+                        u'[color=#2fa7d4ff]{}[/color] - {}\n' \
+                        u'[color=#2fa7d4ff]{}[/color] - {}'.format(
+                            log, login if login != '' else 'None',
+                            pasw, password if password != '' else 'None')
             if answer != '':
                 window = KDialog()
                 window.show(text=answer)

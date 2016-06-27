@@ -371,6 +371,24 @@ from kdialog import class_module
                         events_callback=self.download_cancel,
                         complete=self.complete)
             self.progress_load.show()
+
+Пример окна с параметром 'check'
+--------------------------------
+
+Для того, чтобы в окно был добавлен чекбокс, укажите параметр **check=True**
+и подпишите его - **check_text='Больше не показывать'**.
+
+::
+
+    def dialog_show(self, *args):
+        def dialog_answer_handler(answer):
+            print(answer)
+
+        KDialog(title='Пример окна с параметром `check`',
+                answer_callback=dialog_answer_handler).show(
+            text='Нажмите `OK...`', check_text='Больше не показывать',
+            param='query', text_button_ok='OK', check=True,
+            auto_dismiss=True)
 '''
 
 import kivy

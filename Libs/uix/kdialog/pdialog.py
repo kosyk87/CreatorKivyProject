@@ -6,22 +6,24 @@
 
 import threading
 
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
-from kivy.uix.button import Button
-from kivy.uix.widget import Widget
-from kivy.properties import (
-    ObjectProperty, StringProperty, ListProperty, NumericProperty
-)
-
 try:
-    from . dialog import Dialog
-    from . progress import Progress
-    from . dialog import SettingSpacer
-except (ValueError, SystemError):
-    from dialog import Dialog
-    from progress import Progress
-    from dialog import SettingSpacer
+    from kivy.uix.boxlayout import BoxLayout
+    from kivy.uix.label import Label
+    from kivy.uix.button import Button
+    from kivy.uix.widget import Widget
+    from kivy.properties import (
+        ObjectProperty, StringProperty, ListProperty, NumericProperty
+    )
+    try:
+        from . dialog import Dialog
+        from . progress import Progress
+        from . dialog import SettingSpacer
+    except (ValueError, SystemError):
+        from dialog import Dialog
+        from progress import Progress
+        from dialog import SettingSpacer
+except Exception as text_error:
+    raise text_error
 
 
 __version__ = '1.0.0'

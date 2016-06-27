@@ -4,19 +4,21 @@
 # cdialog.py
 #
 
-from kivy.uix.widget import Widget
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.colorpicker import ColorPicker
-from kivy.uix.button import Button
-from kivy.properties import StringProperty
-
 try:
-    from . dialog import Dialog
-    from . dialog import SettingSpacer
-except (ValueError, SystemError):
-    from dialog import Dialog
-    from dialog import SettingSpacer
+    from kivy.uix.widget import Widget
+    from kivy.uix.boxlayout import BoxLayout
+    from kivy.uix.colorpicker import ColorPicker
+    from kivy.uix.button import Button
+    from kivy.properties import StringProperty
 
+    try:
+        from . dialog import Dialog
+        from . dialog import SettingSpacer
+    except (ValueError, SystemError):
+        from dialog import Dialog
+        from dialog import SettingSpacer
+except Exception as text_error:
+    raise text_error
 
 
 __version__ = '0.0.1'

@@ -4,19 +4,22 @@
 # bdialog.py
 #
 
-from kivy.uix.scrollview import ScrollView
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.button import Button
-from kivy.core.window import Window
-from kivy.graphics import Color, Rectangle
-from kivy.properties import ListProperty, NumericProperty
-
 try:
-    from . dialog import Dialog
-    from . dialog import SettingSpacer
-except (ValueError, SystemError):
-    from dialog import Dialog
-    from dialog import SettingSpacer
+    from kivy.uix.scrollview import ScrollView
+    from kivy.uix.gridlayout import GridLayout
+    from kivy.uix.button import Button
+    from kivy.core.window import Window
+    from kivy.graphics import Color, Rectangle
+    from kivy.properties import ListProperty, NumericProperty
+
+    try:
+        from . dialog import Dialog
+        from . dialog import SettingSpacer
+    except (ValueError, SystemError):
+        from dialog import Dialog
+        from dialog import SettingSpacer
+except Exception as text_error:
+    raise text_error
 
 
 __version__ = '1.0.0'
