@@ -36,16 +36,6 @@ except Exception:
 
 __version__ = '0.0.1'
 
-if not os.path.exists('{}/program.ini'.format(core.prog_path)) or open(
-        '{}/program.ini'.format(core.prog_path)).read() == '':
-    language = 'russian'
-else:
-    config = ConfigParser()
-    config.read('{}/program.ini'.format(core.prog_path))
-
-    language = core.select_locale[config.get('General', 'language')]
-    del config
-
 
 class Program(App, prog_class.ShowPlugin):
     """Функционал программы."""
