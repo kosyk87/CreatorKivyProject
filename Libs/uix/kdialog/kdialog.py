@@ -199,9 +199,11 @@ class KDialog(Dialog):
                     label_check.bind(
                         size=lambda *args: self._update_label_size(args)
                     )
-                    self.checkbox = \
-                        CheckBox(active=False, size_hint_y=.5,
-                                 size_hint_x=.1)
+                    self.checkbox = CheckBox(
+                        active=False, size_hint_y=.5, size_hint_x=.1,
+                        background_checkbox_normal=self.checkbox_normal,
+                        background_checkbox_down=self.checkbox_down
+                    )
 
                     box_check.add_widget(self.checkbox)
                     box_check.add_widget(label_check)

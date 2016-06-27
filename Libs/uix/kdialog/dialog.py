@@ -87,6 +87,22 @@ class Dialog(Popup):
     and defaults to 'data/text_input.png'.
     '''
 
+    checkbox_down = StringProperty('{}/data/checkbox_down.png'.format(root))
+    '''Активный чекбокс.
+
+    :attr:`checkbox_down` is a :class:`~kivy.properties.StringProperty`
+    and defaults to 'data/checkbox_down.png'.
+    '''
+
+    checkbox_normal = StringProperty(
+        '{}/data/checkbox_normal.png'.format(root)
+    )
+    '''Не активный чекбокс.
+
+    :attr:`checkbox_normal` is a :class:`~kivy.properties.StringProperty`
+    and defaults to 'data/checkbox_normal.png'.
+    '''
+
     background_image_buttons = DictProperty(
         {0: '{}/data/button_ok.png'.format(root),
          1: '{}/data/button_no.png'.format(root),
