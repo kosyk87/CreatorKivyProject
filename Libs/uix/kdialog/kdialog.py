@@ -1,30 +1,26 @@
-#! /usr/bin/python3.4
 # -*- coding: utf-8 -*-
 #
 # kdialog.py
 #
 
-try:
-    from kivy.uix.widget import Widget
-    from kivy.uix.boxlayout import BoxLayout
-    from kivy.uix.checkbox import CheckBox
-    from kivy.uix.button import Button
-    from kivy.uix.label import Label
-    from kivy.uix.textinput import TextInput
-    from kivy.uix.image import Image
-    from kivy.uix.rst import RstDocument
-    from kivy.core.window import Window
-    from kivy.clock import Clock
-    from kivy.lang import Builder
+from kivy.uix.widget import Widget
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.checkbox import CheckBox
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
+from kivy.uix.image import Image
+from kivy.uix.rst import RstDocument
+from kivy.core.window import Window
+from kivy.clock import Clock
+from kivy.lang import Builder
 
-    try:
-        from . dialog import Dialog
-        from . dialog import SettingSpacer
-    except (ValueError, SystemError):
-        from dialog import Dialog
-        from dialog import SettingSpacer
-except Exception as text_error:
-    raise text_error
+try:
+    from . dialog import Dialog
+    from . dialog import SettingSpacer
+except (ValueError, SystemError):
+    from dialog import Dialog
+    from dialog import SettingSpacer
 
 
 __version__ = '1.0.0'
@@ -95,11 +91,13 @@ class KDialog(Dialog):
 
         '''
 
-        def create_button(name_button, background_image_button):
+        def create_button(name_button, background_image_normal,
+                          background_image_down):
             self.box_buttons_select.add_widget(
                 Button(text=name_button, id=name_button,
-                       background_normal=background_image_button,
-                       on_press=self._answer_user)
+                       background_normal=background_image_normal,
+                       background_down=background_image_down,
+                       on_release=self._answer_user)
             )
             return True
 
@@ -119,8 +117,10 @@ class KDialog(Dialog):
             for i, name_button in enumerate(
                     [text_button_ok, text_button_no, text_button_cancel]):
                 if name_button:
-                    button = create_button(name_button,
-                                           self.background_image_buttons[i])
+                    button = create_button(
+                        name_button, self.background_image_buttons[i],
+                        self.background_image_shadows[i]
+                    )
 
         if self.param == 'loaddialog':
             self.box_content.cols = 2
@@ -312,33 +312,47 @@ if __name__ in ('__main__', '__android__'):
                     text='This string [color=#2fa7d4ff] Info!')
             # ----------------------------query-------------------------------
             elif text == 'Demo `query`':
-                window = KDialog(answer_callback=self.answer_callback,
-                                 title='Пример окна с параметром `query`')
-                window.show(text=kivy.__doc__, param='query',
-                            text_button_ok='OK',
-                            text_button_no='NO')
+                window = KDialog(
+                    answer_callback=self.answer_callback,
+                    title='Пример окна с параметром `query`'
+                )
+                window.show(
+                    text=kivy.__doc__, param='query', text_button_ok='OK',
+                    text_button_no='NO'
+                )
             # ----------------------------text--------------------------------
             elif text == 'Demo `text`':
-                window = KDialog(answer_callback=self.answer_callback,
-                                 title='Пример окна с параметром `text`')
-                window.show(text='Input [color=#2fa7d4ff] Text [/color]:',
-                            text_button_ok='OK', text_button_no='NO',
-                            param='text')
+                window = KDialog(
+                    answer_callback=self.answer_callback,
+                    title='Пример окна с параметром `text`'
+                )
+                window.show(
+                    text='Input [color=#2fa7d4ff] Text [/color]:',
+                    text_button_ok='OK', text_button_no='NO', param='text'
+                )
             # ----------------------------rst---------------------------------
             elif text == 'Demo `rst`':
-                window = KDialog(answer_callback=self.answer_callback,
-                                 title='Пример окна с параметром `rst`')
-                window.show(text=kivy.__doc__, rst=True, text_button_ok='OK',
-                            text_button_no='NO')
+                window = KDialog(
+                    answer_callback=self.answer_callback,
+                    title='Пример окна с параметром `rst`'
+                )
+                window.show(
+                    text=kivy.__doc__, rst=True, text_button_ok='OK',
+                    text_button_no='NO'
+                )
             # ------------------------loaddialog------------------------------
             elif text == 'Demo `loaddialog`':
                 window = KDialog(title='Пример окна с параметром `loaddialog`')
-                window.show(text='Loading [color=#2fa7d4ff] Page...',
-                            param='loaddialog', auto_dismiss=True)
+                window.show(
+                    text='Loading [color=#2fa7d4ff] Page...',
+                    param='loaddialog', auto_dismiss=True
+                )
             # --------------------------check---------------------------------
             elif text == 'Demo `check`':
-                window = KDialog(title='Пример окна с параметром `check`',
-                                 answer_callback=self.answer_callback)
+                window = KDialog(
+                    title='Пример окна с параметром `check`',
+                    answer_callback=self.answer_callback
+                )
                 window.show(
                     text='Нажмите `OK...`', check_text='Больше не показывать',
                     param='query', text_button_ok='OK', check=True,

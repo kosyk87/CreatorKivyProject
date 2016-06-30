@@ -121,23 +121,6 @@ from kdialog import class_module
             text=__doc__, param='query')
 ```
 
-Также для всех типов окон вы можете указать функцию, которая будет вызвана
-при закрытии окна, передав ее в параметр **dismiss_callback**:
-
-```python
-    def dialog_show(self, *args):
-        def dialog_answer_handler(answer):
-            print(answer)
-
-        def dialog_dismiss_handler(*args):
-            print('Window dismiss!')
-
-        KDialog(answer_callback=dialog_answer_handler,
-                dismiss_callback=dialog_dismiss_handler).show(
-            text_button_ok='Yes', text_button_no='No',
-            text=__doc__, param='query')
-```
-
 ![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/KDialog/master/data/screenshots/query.png)
 
 Вы можете использовать виждет RstDocument для вывода текстовой информации.
@@ -145,7 +128,7 @@ from kdialog import class_module
 
 ```python
     KDialog(answer_callback=dialog_answer_handler,
-            dismiss_callback=dialog_dismiss_handler).show(
+            on_callback=dialog_dismiss_handler).show(
         text_button_ok='Yes', text_button_no='No',
         text=__doc__, param='query', rst=True)
 ```
@@ -299,7 +282,7 @@ from kdialog import class_module
                 'REVOLUTIONARY."'
             ]
 
-            ADialog(dismiss_callback=self.about_dismiss,
+            ADialog(on_dismiss=self.about_dismiss,
                     events_callback=self.events_callback,
                     logo_program=logo_program, info_program=info_program,
                     name_program=name_program)

@@ -145,8 +145,8 @@ class Program(App, prog_class.ShowPlugin):
             try:
                 _args = args[0]
                 event = _args if isinstance(_args, str) else _args.id
-            except AttributeError:  # ввод текста в форму отправки сообщений
-                return
+            except AttributeError:  # нажата кнопка девайса
+                event = args[1]
 
         if event == core.string_lang_settings:
             self.open_settings()
@@ -157,6 +157,7 @@ class Program(App, prog_class.ShowPlugin):
         elif event == core.string_lang_plugin:
             self.show_plugins()
 
+        return True
 
     def back_screen(self):
         '''Показываем предыдущий и удаляем из списка текущий экран.'''

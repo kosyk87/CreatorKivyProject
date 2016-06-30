@@ -1,4 +1,3 @@
-#! /usr/bin/python3.4
 # -*- coding: utf-8 -*-
 #
 # dialog.py
@@ -59,13 +58,6 @@ class Dialog(Popup):
     and defaults to pass.
     '''
 
-    dismiss_callback = ObjectProperty(_pass)
-    '''Функция, вызываемая при закрытии окна.
-
-    :attr:`dismiss_callback` is a :class:`~kivy.properties.ObjectProperty`
-    and defaults to pass.
-    '''
-
     progress_callback = ObjectProperty(None)
     '''Функция, вызываемая при старте окна прогресса.
 
@@ -107,6 +99,12 @@ class Dialog(Popup):
         {0: '{}/data/button_ok.png'.format(root),
          1: '{}/data/button_no.png'.format(root),
          2: '{}/data/button_cancel.png'.format(root)}
+    )
+
+    background_image_shadows = DictProperty(
+        {0: '{}/data/shadows/button_ok.png'.format(root),
+         1: '{}/data/shadows/button_no.png'.format(root),
+         2: '{}/data/shadows/button_cancel.png'.format(root)}
     )
 
     hint_x = NumericProperty(1)

@@ -1,25 +1,20 @@
-#! /usr/bin/python3.4
 # -*- coding: utf-8 -*-
 #
 # adialog.py
 #
 
-try:
-    from kivy.uix.boxlayout import BoxLayout
-    from kivy.uix.label import Label
-    from kivy.lang import Builder
-    from kivy.properties import ListProperty, StringProperty
+from kivy.uix.label import Label
+from kivy.lang import Builder
+from kivy.properties import ListProperty, StringProperty
 
-    try:
-        from . dialog import Dialog
-        from . dialog import SettingSpacer
-        from . dialog import ImageButton
-    except (ValueError, SystemError):
-        from dialog import Dialog
-        from dialog import SettingSpacer
-        from dialog import ImageButton
-except Exception as text_error:
-    raise text_error
+try:
+    from . dialog import Dialog
+    from . dialog import SettingSpacer
+    from . dialog import ImageButton
+except(ValueError, SystemError):
+    from dialog import Dialog
+    from dialog import SettingSpacer
+    from dialog import ImageButton
 
 
 __version__ = '1.0.0'
@@ -169,7 +164,7 @@ if __name__ in ('__main__', '__android__'):
                 'REVOLUTIONARY."'
             ]
 
-            ADialog(dismiss_callback=self.about_dismiss,
+            ADialog(on_dismiss=self.about_dismiss,
                     events_callback=self.events_callback,
                     logo_program=logo_program, info_program=info_program,
                     name_program=name_program, title='Пример окна ADialog')
