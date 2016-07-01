@@ -105,10 +105,3 @@ class StartScreen(BoxLayout):
 
         pass
 
-if __name__ in ('__main__', '__android__'):
-    try:
-        from Libs.uix.tests import startscreen
-    except ImportError:
-        from tests import startscreen
-
-    startscreen.Test(StartScreen=StartScreen).run()
