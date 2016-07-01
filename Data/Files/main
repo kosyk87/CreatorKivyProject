@@ -1,6 +1,7 @@
 #! /usr/bin/python3.4
+# -*- coding: utf-8 -*-
 #
-# main
+# main.py
 #
 # Точка входа в приложение. Запускает основной программный код program.py.
 # В случае ошибки, выводит на экран окно с ее текстом.
@@ -10,14 +11,15 @@ import os
 import sys
 import traceback
 
-# sys.dont_write_bytecode = True
+sys.dont_write_bytecode = True
+directory = os.path.split(os.path.abspath(sys.argv[0]))[0]
 
 try:
     import webbrowser
     import six.moves.urllib
 
     import kivy
-    kivy.require('1.9.2')
+    kivy.require('1.9.1')
 
     from kivy.app import App
     from kivy.config import Config
@@ -26,11 +28,13 @@ try:
     # платформе, в которой запущенно приложение.
     Config.set('kivy', 'keyboard_mode', 'system')
     Config.set('kivy', 'log_level', 'error')
+    # Config.set('graphics', 'width', '400')
+    # Config.set('graphics', 'height', '600')
 
     # Activity баг репорта.
     from Libs.uix.bugreporter import BugReporter
 except Exception:
-    print('\n\n{}'.format(traceback.format_exc()))
+    traceback.print_exc(file=open('{}/error.log'.format(directory), 'w'))
     sys.exit(1)
 
 
@@ -48,19 +52,19 @@ def main():
         app = Program()
         load_plugin(app)
         app.run()
-    except Exception as exc:
-        print(traceback.format_exc())
-        traceback.print_exc(file=open('{}/error.log'.format(
-            os.path.split(os.path.abspath(sys.argv[0]))[0]), 'w'))
+    except Exception:
+        text_error = traceback.format_exc()
+        open('{}/error.log'.format(directory), 'w').write(text_error)
+        print(text_error)
 
         if app:  # очищаем экран приложения от всех виджетов
             app.start_screen.clear_widgets()
 
         class Error(App):
-            """Выводит экран с текстом ошибки."""
+            '''Выводит экран с текстом ошибки.'''
 
             def callback_report(self, *args):
-                """Функция отправки баг-репорта"""
+                '''Функция отправки баг-репорта'''
 
                 try:
                     txt = six.moves.urllib.parse.quote(
@@ -72,8 +76,10 @@ def main():
 
             def build(self):
                 self.win_report = BugReporter(
-                    callback_report=self.callback_report, txt_report=str(exc),
-                    icon_background='Data/Images/logo.png')
+                    callback_report=self.callback_report,
+                    txt_report=text_error,
+                    icon_background='Data/Images/logo.png'
+                )
                 return self.win_report
 
         Error().run()
