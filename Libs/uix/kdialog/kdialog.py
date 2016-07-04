@@ -46,14 +46,10 @@ class KDialog(Dialog):
             height=lambda *args: self._update_box_content_size(args)
         )
 
-    def show(self, text='Your text message!', check_text='',
-                   rst=False, check=False,
-                   text_button_ok=None,
-                   text_button_no=None,
-                   text_button_cancel=None,
-                   image=None, param='info',
-                   password=False,
-                   auto_dismiss=False):
+    def show(self, text='Your text message!', check_text='', rst=False,
+             check=False, text_button_ok=None, text_button_no=None,
+             text_button_cancel=None, image=None, param='info', password=False,
+             auto_dismiss=False):
         '''
         :param text: текст окна;
         :type text: str;
