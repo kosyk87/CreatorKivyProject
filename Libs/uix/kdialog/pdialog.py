@@ -1,4 +1,3 @@
-#! /usr/bin/python2.7
 # -*- coding: utf-8 -*-
 #
 # pdialog.py
@@ -6,24 +5,22 @@
 
 import threading
 
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.button import Button
+from kivy.uix.widget import Widget
+from kivy.properties import (
+    ObjectProperty, StringProperty, ListProperty, NumericProperty
+)
+
 try:
-    from kivy.uix.boxlayout import BoxLayout
-    from kivy.uix.label import Label
-    from kivy.uix.button import Button
-    from kivy.uix.widget import Widget
-    from kivy.properties import (
-        ObjectProperty, StringProperty, ListProperty, NumericProperty
-    )
-    try:
-        from . dialog import Dialog
-        from . progress import Progress
-        from . dialog import SettingSpacer
-    except (ValueError, SystemError):
-        from dialog import Dialog
-        from progress import Progress
-        from dialog import SettingSpacer
-except Exception as text_error:
-    raise text_error
+    from . dialog import Dialog
+    from . progress import Progress
+    from . dialog import SettingSpacer
+except(ValueError, SystemError):
+    from dialog import Dialog
+    from progress import Progress
+    from dialog import SettingSpacer
 
 
 __version__ = '1.0.0'
@@ -115,9 +112,11 @@ class PDialog(Dialog):
         if callable(self.complete):
             self._on_load = self.complete
 
-        self.thread = \
-            threading.Thread(target=self.retrieve_callback,
-                             args=(args, self._tick, self._on_load,))
+        self.thread = threading.Thread(
+            target=self.retrieve_callback, args=(
+                args, self._tick, self._on_load,
+            )
+        )
         self.thread.start()
 
     def _tick(self, value, total_size):
@@ -181,10 +180,12 @@ if __name__ in ('__main__', '__android__'):
             args = args[0]  # аргументы, переданные в метод show
 
             for i in range(1, 101):
-                assert(self.cancel_flag > 0)
-                tick(i, 100)
-                time.sleep(.05)
-
+                if self.cancel_flag:
+                    tick(i, 100)
+                    time.sleep(.05)
+                else:
+                    self.cancel_flag = True
+                    break
             complete()
 
         def download_cancel(self, *args):
@@ -192,14 +193,13 @@ if __name__ in ('__main__', '__android__'):
 
             self.cancel_flag = False
             self.progress_load.dismiss()
-            self.cancel_flag = True
 
         def show_progress(self, *args):
-            self.progress_load = \
-                PDialog(title='Пример окна PDialog',
-                        retrieve_callback=self.retrieve_callback,
-                        events_callback=self.download_cancel,
-                        complete=self.complete)
+            self.progress_load = PDialog(
+                title='Пример окна PDialog',
+                retrieve_callback=self.retrieve_callback,
+                events_callback=self.download_cancel, complete=self.complete
+            )
             self.progress_load.show()
 
 
