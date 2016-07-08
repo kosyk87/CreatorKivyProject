@@ -11,11 +11,9 @@ from kivy.uix.image import Image
 from kivy.uix.widget import Widget
 from kivy.uix.popup import Popup
 from kivy.properties import (
-    ObjectProperty, NumericProperty, StringProperty, DictProperty
-)
+    ObjectProperty, NumericProperty, StringProperty, DictProperty,
+    ListProperty)
 
-
-__version__ = '1.0.0'
 
 root = os.path.split(__file__)[0]
 if root == '':
@@ -135,6 +133,13 @@ class Dialog(Popup):
 
     :attr:`underline_color` is a :class:`~kivy.properties.StringProperty`
     and defaults to '#2fa7d4ff'.
+    '''
+
+    separator_color = ListProperty([1.0, 1.0, 1.0, 1.0])
+    '''Цвет линии сепаратора окна.
+
+    :attr:`separator_color` is a :class:`~kivy.properties.ListProperty`
+    and defaults to [1.0, 1.0, 1.0, 1.0].
     '''
 
     dp = ObjectProperty(metrics.dp)

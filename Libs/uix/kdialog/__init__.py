@@ -5,9 +5,9 @@ kdialog
 -------
 Библиотека для вывода диаолговых окон.
 
-Луганская Народная Республика, 11:27 16.06.16.
+Луганская Народная Республика, 00:46 08.07.16.
 
-:version: '1.0.0'
+:version: '1.0.5'
 :Автор: Иванов Юрий aka HeaTTheatR
 :Email: gorodage@gmail.com
 
@@ -380,6 +380,7 @@ from . cdialog import CDialog
 from . fdialog import FDialog
 from . pdialog import PDialog
 from . kdialog import KDialog
+from . dialog import Dialog
 
 
-__version__ = '1.0.0'
+__version__ = '1.0.5'

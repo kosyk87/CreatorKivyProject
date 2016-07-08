@@ -1,27 +1,20 @@
-#! /usr/bin/python3.4
 # -*- coding: utf-8 -*-
 #
 # cdialog.py
 #
 
+from kivy.uix.widget import Widget
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.colorpicker import ColorPicker
+from kivy.uix.button import Button
+from kivy.properties import StringProperty
+
 try:
-    from kivy.uix.widget import Widget
-    from kivy.uix.boxlayout import BoxLayout
-    from kivy.uix.colorpicker import ColorPicker
-    from kivy.uix.button import Button
-    from kivy.properties import StringProperty
-
-    try:
-        from . dialog import Dialog
-        from . dialog import SettingSpacer
-    except (ValueError, SystemError):
-        from dialog import Dialog
-        from dialog import SettingSpacer
-except Exception as text_error:
-    raise text_error
-
-
-__version__ = '0.0.1'
+    from . dialog import Dialog
+    from . dialog import SettingSpacer
+except(ValueError, SystemError):
+    from dialog import Dialog
+    from dialog import SettingSpacer
 
 
 class CDialog(Dialog):
@@ -44,9 +37,11 @@ class CDialog(Dialog):
 
         box = BoxLayout(orientation='vertical')
         select_color = ColorPicker(hex_color=self.default_color)
-        button_select = \
-            Button(text=self.text_button_ok, size_hint=(1, .1),
-                   background_normal=self.background_image_buttons[0])
+        button_select = Button(
+            text=self.text_button_ok, size_hint=(1, .1),
+            background_normal=self.background_image_buttons[0],
+            background_down=self.background_image_shadows[0]
+        )
 
         box.add_widget(select_color)
         box.add_widget(Widget(size_hint=(None, .02)))
@@ -60,25 +55,3 @@ class CDialog(Dialog):
         )
         self.content = box
         self.open()
-
-
-if __name__ in ('__main__', '__android__'):
-    from kivy.base import runTouchApp
-
-    class Test(BoxLayout):
-        def __init__(self, **kvargs):
-            super(Test, self).__init__(**kvargs)
-
-            self.add_widget(
-                Button(text='Press me!', on_release=self.show_palette)
-            )
-
-        def select(self, *args):
-            print(args[0])
-
-        def show_palette(self, *args):
-            CDialog(title='Пример окна CDialog', events_callback=self.select,
-                    size_hint=(.8, .97))
-
-
-    runTouchApp(Test())

@@ -23,9 +23,6 @@ except (ValueError, SystemError):
     from dialog import SettingSpacer
 
 
-__version__ = '1.0.0'
-
-
 class KDialog(Dialog):
     Builder.load_file('{}/kv/kdialog.kv'.format(Dialog.root))
 
@@ -46,11 +43,14 @@ class KDialog(Dialog):
             height=lambda *args: self._update_box_content_size(args)
         )
 
-    def show(self, text='Your text message!', check_text='', rst=False,
-             check=False, text_button_ok=None, text_button_no=None,
+    def show(self, text='Your text message!', check_text='', hint_text='',
+             rst=False, check=False, text_button_ok=None, text_button_no=None,
              text_button_cancel=None, image=None, param='info', password=False,
-             auto_dismiss=False):
+             auto_dismiss=True):
         '''
+        :param hint_text: текст по умолчанию в поле ввода;
+        :type hint_text: str;
+
         :param text: текст окна;
         :type text: str;
 
@@ -104,19 +104,17 @@ class KDialog(Dialog):
 
         if not image:
             image = '{}/data/loading.gif'.format(self.root)
-        if self.param not in ['info', 'query', 'logpass', 'text', 'loaddialog']:
+        if self.param not in [
+                'info', 'query', 'logpass', 'text', 'loaddialog']:
             self.param = 'info'
 
-        if self.param == 'info':
-            auto_dismiss = True
-        else:
-            for i, name_button in enumerate(
-                    [text_button_ok, text_button_no, text_button_cancel]):
-                if name_button:
-                    button = create_button(
-                        name_button, self.background_image_buttons[i],
-                        self.background_image_shadows[i]
-                    )
+        for i, name_button in enumerate(
+                [text_button_ok, text_button_no, text_button_cancel]):
+            if name_button:
+                button = create_button(
+                    name_button, self.background_image_buttons[i],
+                    self.background_image_shadows[i]
+                )
 
         if self.param == 'loaddialog':
             self.box_content.cols = 2
@@ -143,24 +141,20 @@ class KDialog(Dialog):
                     )
                     self.box_content.add_widget(self.message)
             else:
-                self.message = \
-                    RstDocument(text=text, size_hint_y=None, height=self.dp(400),
-                                background_color=[1.0, 1.0, 1.0, 0.0])
+                self.message = RstDocument(
+                    text=text, size_hint_y=None, height=self.dp(400),
+                    background_color=[1.0, 1.0, 1.0, 0.0]
+                )
                 self.box_content.add_widget(self.message)
 
-        if self.param != 'query' and self.param != 'info' and \
-                self.param != 'loaddialog':
-            if not button:
-                create_button('Yes', 'button_ok')
-
+        if self.param not in ['query', 'info', 'loaddialog']:
             param = self.param
-            hint_text = ''
 
             # FIXME: Виджет TextInput не реагирует на значения аргументов
             # 'tel', 'address', 'mail', 'datetime', 'number'.
             if self.param == 'logpass':
-                hint_text = 'Password'
                 param = 'text'
+                hint_text = 'Password'
 
                 self.input_dialog_double = \
                     TextInput(input_type=param, password=password,
@@ -181,33 +175,37 @@ class KDialog(Dialog):
             self.input_dialog.bind(on_press=self._answer_user)
             self.box_root.add_widget(self.input_dialog)
 
-        if not auto_dismiss or self.param == 'query':
-            if self.param == 'loaddialog':
-                pass
-            else:
-                if check:
-                    box_check = BoxLayout(size_hint_y=None, height=self.dp(40))
-                    label_check = \
-                        Label(id='check', text=check_text, size_hint=(1, None),
-                              font_size=self.sp(self.base_font_size),
-                              font_name=self.base_font_name, markup=True,
-                              height=18)
-                    label_check.bind(
-                        size=lambda *args: self._update_label_size(args)
-                    )
-                    self.checkbox = CheckBox(
-                        active=False, size_hint_y=.5, size_hint_x=.1,
-                        background_checkbox_normal=self.checkbox_normal,
-                        background_checkbox_down=self.checkbox_down
-                    )
+        if self.param == 'query':
+            if check:
+                box_check = BoxLayout(size_hint_y=None, height=self.dp(40))
+                label_check = Label(
+                    id='check', text=check_text, size_hint=(1, None),
+                    font_size=self.sp(self.base_font_size),
+                    font_name=self.base_font_name, markup=True, height=18
+                )
+                label_check.bind(
+                    size=lambda *args: self._update_label_size(args)
+                )
+                self.checkbox = CheckBox(
+                    active=False, size_hint_y=.5, size_hint_x=.1,
+                    background_checkbox_normal=self.checkbox_normal,
+                    background_checkbox_down=self.checkbox_down
+                )
 
-                    box_check.add_widget(self.checkbox)
-                    box_check.add_widget(label_check)
-                    self.box_root.add_widget(box_check)
-                self.box_root.add_widget(Widget(size_hint=(None, .03)))
-                self.box_root.add_widget(SettingSpacer())
-                self.box_root.add_widget(Widget(size_hint=(None, .03)))
-                self.box_root.add_widget(self.box_buttons_select)
+                box_check.add_widget(self.checkbox)
+                box_check.add_widget(label_check)
+                self.box_root.add_widget(box_check)
+
+        if not button and self.param in ['query', 'text', 'logpass']:
+            create_button(
+                'OK', self.background_image_buttons[0],
+                self.background_image_shadows[0]
+            )
+        if self.param in ['query', 'text', 'logpass']:
+            self.box_root.add_widget(Widget(size_hint=(None, .03)))
+            self.box_root.add_widget(SettingSpacer())
+            self.box_root.add_widget(Widget(size_hint=(None, .03)))
+            self.box_root.add_widget(self.box_buttons_select)
 
         self.auto_dismiss = auto_dismiss
         self._update_box_content_size()
@@ -272,117 +270,3 @@ class KDialog(Dialog):
             else:
                 self.answer_callback(args[0].text)
         self.dismiss()
-
-
-if __name__ in ('__main__', '__android__'):
-    import kivy
-
-    from kivy.uix.gridlayout import GridLayout
-    from kivy.base import runTouchApp
-    from kivy.logger import PY2
-
-
-    class Test(GridLayout):
-        def __init__(self, **kwargs):
-            super(Test, self).__init__(cols=2, spacing=5, padding=5)
-
-            for text in ['Demo `info`', 'Demo `query`', 'Demo `text`',
-                         'Demo `logpass`', 'Demo `rst`', 'Demo `loaddialog`',
-                         'Demo `check`']:
-                self.add_widget(Button(text=text, on_press=self.on_click))
-
-        def on_click(self, *args):
-            text = args[0].text
-
-            # ----------------------------logpass-----------------------------
-            if text == 'Demo `logpass`':
-                window = KDialog(answer_callback=self.answer_callback,
-                                 title='Пример окна с параметром `logpass`')
-                window.show(text='Your [color=#2fa7d4ff] Login [/color]:',
-                            text_button_ok='OK', text_button_no='NO',
-                            text_button_cancel='CANCEL', param='logpass',
-                            password=True)
-            # -----------------------------info-------------------------------
-            elif text == 'Demo `info`':
-                KDialog(title='Пример окна с параметром `info`').show(
-                    text='This string [color=#2fa7d4ff] Info!')
-            # ----------------------------query-------------------------------
-            elif text == 'Demo `query`':
-                window = KDialog(
-                    answer_callback=self.answer_callback,
-                    title='Пример окна с параметром `query`'
-                )
-                window.show(
-                    text=kivy.__doc__, param='query', text_button_ok='OK',
-                    text_button_no='NO'
-                )
-            # ----------------------------text--------------------------------
-            elif text == 'Demo `text`':
-                window = KDialog(
-                    answer_callback=self.answer_callback,
-                    title='Пример окна с параметром `text`'
-                )
-                window.show(
-                    text='Input [color=#2fa7d4ff] Text [/color]:',
-                    text_button_ok='OK', text_button_no='NO', param='text'
-                )
-            # ----------------------------rst---------------------------------
-            elif text == 'Demo `rst`':
-                window = KDialog(
-                    answer_callback=self.answer_callback,
-                    title='Пример окна с параметром `rst`'
-                )
-                window.show(
-                    text=kivy.__doc__, rst=True, text_button_ok='OK',
-                    text_button_no='NO'
-                )
-            # ------------------------loaddialog------------------------------
-            elif text == 'Demo `loaddialog`':
-                window = KDialog(title='Пример окна с параметром `loaddialog`')
-                window.show(
-                    text='Loading [color=#2fa7d4ff] Page...',
-                    param='loaddialog', auto_dismiss=True
-                )
-            # --------------------------check---------------------------------
-            elif text == 'Demo `check`':
-                window = KDialog(
-                    title='Пример окна с параметром `check`',
-                    answer_callback=self.answer_callback
-                )
-                window.show(
-                    text='Нажмите `OK...`', check_text='Больше не показывать',
-                    param='query', text_button_ok='OK', check=True,
-                    auto_dismiss=True
-                )
-
-        def answer_callback(self, answer):
-            if isinstance(answer, tuple):
-                if isinstance(answer[1], bool):
-                    login, password = answer
-                    password = {1: 'True', 0: 'False'}[password]
-                    log = 'Press'
-                    pasw = 'Check'
-                else:
-                    if ''.join(answer) == '':
-                        return
-                    login, password = answer
-                    log = 'Login'
-                    pasw = 'Password'
-                if not PY2:
-                    answer = \
-                        '[color=#2fa7d4ff]{}[/color] - {}\n' \
-                        '[color=#2fa7d4ff]{}[/color] - {}'.format(
-                            log, login if login != '' else 'None',
-                            pasw, password if password != '' else 'None')
-                else:
-                    answer = \
-                        u'[color=#2fa7d4ff]{}[/color] - {}\n' \
-                        u'[color=#2fa7d4ff]{}[/color] - {}'.format(
-                            log, login if login != '' else 'None',
-                            pasw, password if password != '' else 'None')
-            if answer != '':
-                window = KDialog()
-                window.show(text=answer)
-
-
-    runTouchApp(Test())

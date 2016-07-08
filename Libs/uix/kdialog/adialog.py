@@ -17,9 +17,6 @@ except(ValueError, SystemError):
     from dialog import ImageButton
 
 
-__version__ = '1.0.0'
-
-
 class ADialog(Dialog):
     logo_program = StringProperty('data/logo/kivy-icon-24.png')
     '''Логотип приложения.
@@ -84,90 +81,3 @@ class ADialog(Dialog):
 
         label.text_size = (self.dp(label.width - 30), None)
         label.texture_update()
-
-
-if __name__ in ('__main__', '__android__'):
-    from kivy.app import App
-    from kivy.uix.button import Button
-
-
-    class Test(App):
-        def events_callback(self, instance_label, text_link):
-            print(text_link)
-
-        def about_dismiss(self, *args):
-            print('Dialog dismiss')
-
-        def build(self):
-            return Button(text='Press Me', on_press=self.show)
-
-        def show(self, *args):
-            name_program = '[color=#ff7f32][size=22]HeaTDV4A[/size] ' \
-                           '[size=16][color=#2fbfe0]blue-[color=#ff7f32]' \
-                           'orange [/size][color=#ffffffff]version 0.0.1'
-            logo_program = 'data/logo/kivy-icon-24.png'
-            info_program = [
-                '',
-
-                '[color=#ffffffff]Мобильный клиент сайта [color=#2fbfe0]'
-                '[ref=www.dimonvideo.ru]dimonvideo.ru[/ref]',
-
-                '',
-
-                '[b][color=#ffffffff]Автор - [/b][color=#ff7f32]Иванов Юрий '
-                '[color=#ffffffff]aka [color=#2fbfe0][ref=http://dimonvideo.ru'
-                '/smart/0/name/HeaTTheatR]HeaTTheatR[/ref]',
-
-                '[b][color=#ffffffff]Система плагинов - [/b][color=#ff7f32]'
-                'Виталий [color=#ffffffff]aka [color=#2fbfe0][ref=http://'
-                'dimonvideo.ru/smart/0/name/Virtuos86]Virtuos86[/ref]',
-
-                '[b][color=#ffffffff]Серверная часть - [/b][color=#ff7f32]'
-                'Дмитрий [color=#ffffffff]aka [color=#2fbfe0][ref=http://'
-                'dimonvideo.ru/smart/0/name/dimy44]dimy44[/ref]',
-
-                '',
-
-                '[b][color=#ffffffff]E-mail - [/b][color=#2fbfe0]'
-                '[ref=gorodage@gmail.com]gorodage@gmail.com[/ref]',
-
-                '[b][color=#ffffffff]Исходный код - [/b]'
-                '[ref=https://github.com/HeaTTheatR/HeaTDV4A.git]'
-                '[color=#2fbfe0]github.com[/ref]',
-
-                '[color=#ff7f32]P.S',
-
-                '',
-
-                '[color=#ffffffff]Программа написана на языке '
-                'программирования [ref=www.python.org][color=#2fbfe0]Python '
-                '[/ref][color=#ffffffff]с использованием фреймворка '
-                '[ref=www.kivy.org][color=#2fbfe0]Kivy[/ref]',
-
-                '[color=#ff7f32]P.P.S',
-
-                '',
-
-                '[i][color=#ffffffff]Хотите добиться успеха - приложите все '
-                'силы для создания наилучшего продукта. А если он не принесет '
-                'вам успеха, значит, так тому и быть.[/i]',
-
-                '[i]Успеха достигает тот, '
-                'кто обеспечивает качество и удовлетворяет потребности.[/i]',
-
-                '',
-
-                '[color=#ff7f32]Linus TORVALDS [color=#ffffffff]and '
-                '[color=#ff7f32]David DIAMOND.',
-
-                '[color=#ffffffff] "JUST FOR  FUN. THE  STORY OF AN ACCIDENTAL '
-                'REVOLUTIONARY."'
-            ]
-
-            ADialog(on_dismiss=self.about_dismiss,
-                    events_callback=self.events_callback,
-                    logo_program=logo_program, info_program=info_program,
-                    name_program=name_program, title='Пример окна ADialog')
-
-
-    Test().run()

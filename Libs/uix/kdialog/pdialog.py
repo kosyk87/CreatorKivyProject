@@ -23,9 +23,6 @@ except(ValueError, SystemError):
     from dialog import SettingSpacer
 
 
-__version__ = '1.0.0'
-
-
 class PDialog(Dialog):
     complete = ObjectProperty(None)
     '''Функция для обработки событий окна.
@@ -81,7 +78,8 @@ class PDialog(Dialog):
         self.progress_load = Progress()
         self.button_cancel = Button(
             text='Cancel', on_press=self.events_callback, size_hint=(1, .1),
-            background_normal=self.background_image_buttons[0]
+            background_normal=self.background_image_buttons[0],
+            background_down=self.background_image_shadows[0]
         )
 
         self.label_one.bind(size=lambda *args: self._update_text_size(args))
@@ -149,58 +147,3 @@ class PDialog(Dialog):
     def _on_load(self):
         pass
 
-
-if __name__ in ('__main__', '__android__'):
-    import time
-
-    from kivy.base import runTouchApp
-
-    from kdialog import KDialog
-
-
-    class Test(BoxLayout):
-        def __init__(self, **kvargs):
-            super(Test, self).__init__(**kvargs)
-
-            self.add_widget(
-                Button(text='Press me!', on_release=self.show_progress)
-            )
-            self.cancel_flag = True
-
-        def complete(self):
-            '''Функция вызывается после окончания цикла прогресса.'''
-
-            KDialog(title='Info').show(text='Complete!')
-
-        def retrieve_callback(self, *args):
-            '''Функция вызывается во время цикла прогресса.'''
-
-            tick = args[1]  # метод _tick класса PDialog
-            complete = args[2]  # метод self.complete
-            args = args[0]  # аргументы, переданные в метод show
-
-            for i in range(1, 101):
-                if self.cancel_flag:
-                    tick(i, 100)
-                    time.sleep(.05)
-                else:
-                    self.cancel_flag = True
-                    break
-            complete()
-
-        def download_cancel(self, *args):
-            '''Функция вызывается после прерывания цикла прогресса.'''
-
-            self.cancel_flag = False
-            self.progress_load.dismiss()
-
-        def show_progress(self, *args):
-            self.progress_load = PDialog(
-                title='Пример окна PDialog',
-                retrieve_callback=self.retrieve_callback,
-                events_callback=self.download_cancel, complete=self.complete
-            )
-            self.progress_load.show()
-
-
-    runTouchApp(Test())

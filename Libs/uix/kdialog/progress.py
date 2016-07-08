@@ -1,4 +1,3 @@
-#!/usr/bin/env python3.4
 # -*- coding: utf-8 -*-
 #
 # progress.py
@@ -16,18 +15,13 @@ Progress
 
 '''
 
-try:
-    from kivy.uix.widget import Widget
-    from kivy.uix.boxlayout import BoxLayout
-    from kivy.graphics import Color, Rectangle, Line
-    from kivy.utils import get_color_from_hex
-    from kivy.lang import Builder
-    from kivy.logger import Logger
-except Exception as text_error:
-    raise text_error
+from kivy.uix.widget import Widget
+from kivy.uix.boxlayout import BoxLayout
+from kivy.graphics import Color, Rectangle, Line
+from kivy.utils import get_color_from_hex
+from kivy.lang import Builder
+from kivy.logger import Logger
 
-
-__version__ = '1.0.0'
 
 Builder.load_string('''
 <Progress>:
