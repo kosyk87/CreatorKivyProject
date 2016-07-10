@@ -18,6 +18,7 @@ from kivy.properties import ObjectProperty, NumericProperty
 # Макеты интерфейса.
 from Libs.uix.kdialog import KDialog, BDialog  # ADialog, FDialog, CDialog, PDialog
 from Libs.uix.startscreen import StartScreen
+from Libs.uix.customsettings import CustomSettings
 
 # Классы программы.
 from Libs import programclass as prog_class
@@ -43,7 +44,6 @@ class Program(App, prog_class.ShowPlugin):
     def __init__(self, **kvargs):
         super(Program, self).__init__(**kvargs)
         Window.bind(on_keyboard=self.events_program)
-        prog_class.CustomWindowsSettings()
 
         # Для области видимомти в programclass.
         # self.FadeTransition = FadeTransition
@@ -76,6 +76,12 @@ class Program(App, prog_class.ShowPlugin):
         config.setdefault('Theme', 'create_theme', '0')
 
     def build_settings(self, settings):
+        CustomSettings(
+            background_color_settings=core.color_body_program,
+            background_color_title=core.color_action_bar,
+            text_color_title=core.separator_color, settings=settings
+        )
+
         general_settings = open('{}/Data/Settings/general.json'.format(
             core.prog_path)).read()
         general_data = general_settings.format(
