@@ -22,8 +22,8 @@ def test_plugin(interval):
 def events_screen(button):
     KDialog(title='Plugin').show(
         text='[color=#ffffff]Привет, [color=#2fa7d4ff]{}!'.format(
-            app.started_plugins['TestPlugin']['plugin-name']
-    ))
+            app.started_plugins['TestPlugin']['plugin-name'])
+    )
 
 
 Clock.schedule_once(test_plugin, 5)
