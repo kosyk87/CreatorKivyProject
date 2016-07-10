@@ -60,7 +60,7 @@ class Program(App, prog_class.ShowPlugin):
         self.Manifest = Manifest
         # self.traceback = traceback
         self.core = core
-        self.name_program = core.string_lang_title[:-1]
+        self.name_program = core.string_lang_title
 
     def get_application_config(self):
         return super(Program, self).get_application_config(
