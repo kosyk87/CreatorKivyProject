@@ -71,7 +71,7 @@ class Program(App, prog_class.ShowPlugin):
         config.setdefault('General', 'language', 'Русский')
 
         config.adddefaultsection('Theme')
-        config.setdefault('Theme', 'theme', 'blue_orange')
+        config.setdefault('Theme', 'theme', 'default')
         config.setdefault('Theme', 'edit_theme', '0')
         config.setdefault('Theme', 'create_theme', '0')
 

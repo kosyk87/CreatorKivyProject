@@ -19,7 +19,7 @@ prog_path = os.path.split(os.path.abspath(sys.argv[0]))[0]
 if not os.path.exists('{}/program.ini'.format(prog_path)) \
         or open('{}/program.ini'.format(prog_path)).read() == '':
     language = 'russian'
-    theme = 'blue_orange'
+    theme = 'default'
 else:
     config = ConfigParser()
     config.read('{}/program.ini'.format(prog_path))
@@ -32,20 +32,13 @@ config_theme = ConfigParser()
 config_theme.read("{}/Data/Themes/{theme}/{theme}.ini".format(
     prog_path, theme=theme))
 
-theme_background_screen = eval(config_theme.get("color", "background_screen"))
-theme_background_window = eval(config_theme.get("color", "background_window"))
+color_action_bar = eval(config_theme.get("color", "color_action_bar"))
+color_body_program = eval(config_theme.get("color", "color_body_program"))
+separator_color = eval(config_theme.get("color", "separator_color"))
 theme_text_color = config_theme.get("color", "text_color")
+theme_text_color_action_item = config_theme.get("color", "text_color_action_item")
 theme_key_text_color = config_theme.get("color", "key_text_color")
 theme_link_color = config_theme.get("color", "link_color")
-theme_separator_color_window = eval(config_theme.get("color", "separator_color_window"))
-theme_underline_color_title = config_theme.get("color", "underline_color_title")
-
-theme_decorator_window = "Data/Themes/{}/{}".format(theme, config_theme.get(
-    "resource", "decorator_window"))
-theme_check_normal = "Data/Themes/{}/{}".format(theme, config_theme.get(
-    "resource", "check_normal"))
-theme_check_down = "Data/Themes/{}/{}".format(theme, config_theme.get(
-    "resource", "check_down"))
 
 try:  # устанавливаем языковую локализацию
     exec(open('{}/Data/Language/{}.txt'.format(
