@@ -63,10 +63,6 @@ class Program(App, prog_class.ShowPlugin):
         self.core = core
         self.name_program = core.string_lang_title
 
-    def get_application_config(self):
-        return super(Program, self).get_application_config(
-            '{}/program.ini'.format(core.prog_path))
-
     def build_config(self, config):
         config.adddefaultsection('General')
         config.setdefault('General', 'language', 'Русский')
@@ -114,7 +110,7 @@ class Program(App, prog_class.ShowPlugin):
     def build(self):
         self.title = self.name_program  # заголовок окна программы
         self.icon = 'Data/Images/logo.png'  # иконка окна программы
-        # self.use_kivy_settings = False
+        self.use_kivy_settings = False
         self.settings_cls = SettingsWithSidebar
 
         self.config = ConfigParser()
