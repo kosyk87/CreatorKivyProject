@@ -16,8 +16,16 @@ from Libs.uix.kdialog import Dialog, KDialog, BDialog, FDialog
 
 
 title_item = '''
-<SettingTitle>
-    color: {text_color_title}
+<SettingSidebarLabel>:
+    canvas.before:
+        Color:
+            rgba: [{background_sections}, int(self.selected)]
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<SettingTitle>:
+    color: {color_text_title}
     canvas.before:
         Color:
             rgba: {background_color_title}
@@ -31,7 +39,7 @@ title_item = '''
             pos: self.x, self.y - 2
             size: self.width, 1
 
-<SettingItem>
+<SettingItem>:
     canvas:
         Color:
             rgba: {background_color_item}
@@ -52,43 +60,56 @@ class CustomSettings(Dialog):
     text_input = StringProperty('Enter value')
     '''Подпись окна для ввода значений.
 
-    :attr:` text_input` is a :class:`~kivy.properties.StringProperty`
+    :attr: `text_input` is a :class:`~kivy.properties.StringProperty`
     and defaults to 'Enter value'.
     '''
 
-    settings = ObjectProperty(None)
-    '''
-    Интерфейс настроек.
+    settings_obj = ObjectProperty(None)
+    '''Интерфейс настроек.
 
-    :attr:` settings` is a :class:`~kivy.uix.settings.SettingsWithSpinner`
-    and defaults to :class:`~kivy.uix.settings.SettingsWithSpinner`.
+    :attr: `settings_obj` is a :class:`~kivy.uix.settings.SettingsWithSidebar`
+    and defaults to :class:`~kivy.uix.settings.SettingsWithSidebar`.
     '''
 
-    text_color_title = ListProperty([.9, .9, .9, 1])
+    background_sections = ListProperty([47 / 255., 167 / 255., 212 / 255., 1])
+    '''Фоновый цвет активного раздела настроек.
+
+    :attr: `background_sections` is a :class:`~kivy.properties.ListProperty`
+    and defaults to [47 / 255., 167 / 255., 212 / 255., 1].
+    '''
+
+    button_close_background_down = StringProperty('')
+    '''Фоновое изображение активной кнопки закрытия экрана настроек.
+
+    :attr: `background_image_title` is a :class:`~kivy.properties.StringProperty`
+    and defaults to ''.
+    '''
+
+    color_text_title = ListProperty([.9, .9, .9, 1])
     '''Цвет текста описания пункта настроек.
 
-    :attr:` text_color_title` is a :class:`~kivy.properties.ListProperty`
+    :attr: `color_text_title` is a :class:`~kivy.properties.ListProperty`
     and defaults to [.9, .9, .9, 1].
     '''
 
     background_image_title = StringProperty('')
     '''Фоновое изображение описания пункта настроек.
 
-    :attr:` background_image_title` is a :class:`~kivy.properties.StringProperty`
+    :attr: `background_image_title` is a :class:`~kivy.properties.StringProperty`
     and defaults to ''.
     '''
 
     background_color_title = ListProperty([.15, .15, .15, .5])
     '''Цвет описания пункта настроек.
 
-    :attr:` background_color_title` is a :class:`~kivy.properties.ListProperty`
+    :attr: `background_color_title` is a :class:`~kivy.properties.ListProperty`
     and defaults to [.15, .15, .15, .5].
     '''
 
     background_image_item = StringProperty('')
     '''Фоновое изображение пункта настроек.
 
-    :attr:` background_image_item` is a :class:`~kivy.properties.StringProperty`
+    :attr: `background_image_item` is a :class:`~kivy.properties.StringProperty`
     and defaults to ''.
     '''
 
@@ -97,14 +118,14 @@ class CustomSettings(Dialog):
     )
     '''Цвет пункта настроек.
 
-    :attr:` background_color_item` is a :class:`~kivy.properties.ListProperty`
+    :attr: `background_color_item` is a :class:`~kivy.properties.ListProperty`
     and defaults to [47 / 255., 167 / 255., 212 / 255., 0].
     '''
 
-    background_color_settings = ListProperty([1, 1, 1, 0])
+    background_color = ListProperty([1, 1, 1, 0])
     '''Фоновый цвет настроек.
 
-    :attr:` background_color_item` is a :class:`~kivy.properties.ListProperty`
+    :attr: `background_color_item` is a :class:`~kivy.properties.ListProperty`
     and defaults to [1, 1, 1, 0].
     '''
 
@@ -120,19 +141,30 @@ class CustomSettings(Dialog):
                 background_image_title=self.background_image_title,
                 background_color_item=self.background_color_item,
                 background_image_item=self.background_image_item,
+                background_sections=', '.join(
+                    [str(value) for value in self.background_sections[:-1]]),
                 separator_color=self.separator_color,
-                text_color_title=self.text_color_title
+                color_text_title=self.color_text_title
             )
         )
+
         SettingOptions._create_popup = self.options_popup
         SettingNumeric._create_popup = self.input_popup
         SettingString._create_popup = self.input_popup
         SettingPath._create_popup = self.path_popup
 
-        with self.settings.canvas.before:
-            Color(rgba=self.background_color_settings)
+        # Цвет статической и фон нажатой кнопки закрытия экрана настроек.
+        button_close = self.settings_obj.children[0].children[1].ids.button
+        button_close.background_color = [
+            value + .5 for value in self.background_color_title]
+        button_close.background_down = self.button_close_background_down
+
+        with self.settings_obj.canvas.before:
+            Color(rgba=self.background_color)
             canvas_settings = Rectangle(
-                pos=(0, 0), size=(self.settings.width, self.settings.height)
+                pos=(0, 0), size=(
+                    self.settings_obj.width, self.settings_obj.height
+                )
             )
 
             def on_settings_pos(instance, value):
@@ -141,7 +173,7 @@ class CustomSettings(Dialog):
             def on_settings_size(instance, value):
                 canvas_settings.size = value
 
-            self.settings.bind(size=on_settings_size, pos=on_settings_pos)
+            self.settings_obj.bind(size=on_settings_size, pos=on_settings_pos)
 
     def options_popup(self, options_instance):
         def on_select(button_instance):

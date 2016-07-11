@@ -9,6 +9,7 @@ import sys
 import webbrowser
 
 from kivy.app import App
+from kivy.uix.settings import SettingsWithSidebar
 # from kivy.uix.screenmanager import Screen, FadeTransition
 from kivy.core.window import Window
 from kivy.config import ConfigParser
@@ -77,9 +78,11 @@ class Program(App, prog_class.ShowPlugin):
 
     def build_settings(self, settings):
         CustomSettings(
-            background_color_settings=core.color_body_program,
+            background_sections=core.color_action_bar,
+            background_color=core.color_body_program,
             background_color_title=core.color_action_bar,
-            text_color_title=core.separator_color, settings=settings
+            button_close_background_down='Data/Images/shadows/shadow_btn.png',
+            color_text_title=core.separator_color, settings_obj=settings
         )
 
         general_settings = open('{}/Data/Settings/general.json'.format(
@@ -112,6 +115,7 @@ class Program(App, prog_class.ShowPlugin):
         self.title = self.name_program  # заголовок окна программы
         self.icon = 'Data/Images/logo.png'  # иконка окна программы
         # self.use_kivy_settings = False
+        self.settings_cls = SettingsWithSidebar
 
         self.config = ConfigParser()
         self.config.read('{}/program.ini'.format(core.prog_path))
