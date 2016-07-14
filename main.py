@@ -1,5 +1,4 @@
 #! /usr/bin/python3.4
-# -*- coding: utf-8 -*-
 #
 # main.py
 #
@@ -100,7 +99,6 @@ except FileNotFoundError as exc:
     shutil.rmtree(full_path_to_project)
     sys.exit(0)
 except Exception as exc:
-    import traceback
     Logger.error('Неизвестная ошибка - ', exc)
     shutil.rmtree(full_path_to_project)
     sys.exit(0)
