@@ -25,7 +25,7 @@ if len(sys.argv) <= 1:
 
 'name' - Имя проекта
 'path' - Директория проекта
-'repo' - Адресс репозитория на GitHub
+'repo' - Адресс репозитория на GitHub (необязательный параметр)
     ''')
     sys.exit(0)
 
@@ -35,7 +35,7 @@ prog_path = os.path.split(os.path.abspath(sys.argv[0]))[0]
 parser = argparse.ArgumentParser()
 parser.add_argument('name', type=str, help='Имя проекта')
 parser.add_argument('path', type=str, help='Директория проекта')
-parser.add_argument('repo', type=str, help='Адресс репозитория на GitHub')
+parser.add_argument('-repo', type=str, help='Адресс репозитория на GitHub')
 
 name_project = parser.parse_args().name
 dir_project = parser.parse_args().path
