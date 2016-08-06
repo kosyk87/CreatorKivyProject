@@ -17,9 +17,26 @@ Python 2.7 +
 
 https://github.com/HeaTTheatR/CreatorKivyProject.git
 
+После создания проекта вам даступны следующие экраны:
+
+![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/CreatorKivyProject/master/Screenshots/start_screen.jpg)
+![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/CreatorKivyProject/master/Screenshots/settings_screen.jpg)
+
 ЗАПУСК ПРОЕКТА
 --------------
-python3 main.py **name path repo**
+```python
+python3 main.py name_project path_to_project -repo repo_project_on_github
+```
+
+если у проекта имеется репозиторий на github.
+
+Или
+
+```python
+python3 main.py name_project path_to_project
+```
+
+если репозитория не github не имеется.
 
 **name** - Имя проекта
 
