@@ -6,14 +6,24 @@
 import os
 
 from kivy.uix.settings import (
-    SettingOptions, SettingNumeric, SettingPath, SettingString
+    SettingOptions, SettingNumeric, SettingPath, SettingString,
+    InterfaceWithNoMenu, Settings
 )
-from kivy.graphics import Color, Rectangle
-from kivy.properties import StringProperty, ObjectProperty, ListProperty
 from kivy.lang import Builder
 
-from Libs.uix.kdialog import Dialog, KDialog, BDialog, FDialog
+from Libs.uix.kdialog import KDialog, BDialog, FDialog
 
+
+TEXT_INPUT = 'Enter value'  # подпись окна для ввода значений
+BACKGROUND_SECTIONS = [47 / 255., 167 / 255., 212 / 255., 1]  # фоновый цвет активного раздела настроек
+COLOR_TEXT_INPUT = [.9, .9, .9, 1]  # цвет текста описания пункта настроек
+BACKGROUND_IMAGE_TITLE = ''  # фоновое изображение описания пункта настроек
+BACKGROUND_COLOR_TITLE = [.15, .15, .15, .5]  # цвет описания пункта настроек
+BACKGROUND_IMAGE_ITEM = ''  # фоновое изображение пункта настроек
+BACKGROUND_COLOR_ITEM = [47 / 255., 167 / 255., 212 / 255., 0]  # цвет пункта настроек
+BACKGROUND_COLOR = [1, 1, 1, 0]  # фоновый цвет настроек
+SEPARATOR_COLOR = [0.12156862745098039, 0.8901960784313725, 0.2, 0.011764705882352941]
+SETTINGS_INTERFACE = InterfaceWithNoMenu
 
 title_item = '''
 <SettingSidebarLabel>:
@@ -54,126 +64,44 @@ title_item = '''
             size: self.width, 1'''
 
 
-class CustomSettings(Dialog):
+Builder.load_string("""
+<-CustomSettings>:
+    interface_cls: 'SettingsInterface'
+
+    canvas:
+        Color:
+            rgba: 0, 0, 0, .9
+        Rectangle:
+            size: self.size
+            pos: self.pos
+""")
+
+
+class SettingsInterface(SETTINGS_INTERFACE):
+    pass
+
+
+class CustomSettings(Settings):
     '''Кастомные диалоговые окна для экрана настроек.'''
-
-    text_input = StringProperty('Enter value')
-    '''Подпись окна для ввода значений.
-
-    :attr: `text_input` is a :class:`~kivy.properties.StringProperty`
-    and defaults to 'Enter value'.
-    '''
-
-    settings_obj = ObjectProperty(None)
-    '''Интерфейс настроек.
-
-    :attr: `settings_obj` is a :class:`~kivy.uix.settings.SettingsWithSidebar`
-    and defaults to :class:`~kivy.uix.settings.SettingsWithSidebar`.
-    '''
-
-    background_sections = ListProperty([47 / 255., 167 / 255., 212 / 255., 1])
-    '''Фоновый цвет активного раздела настроек.
-
-    :attr: `background_sections` is a :class:`~kivy.properties.ListProperty`
-    and defaults to [47 / 255., 167 / 255., 212 / 255., 1].
-    '''
-
-    button_close_background_down = StringProperty('')
-    '''Фоновое изображение активной кнопки закрытия экрана настроек.
-
-    :attr: `background_image_title` is a :class:`~kivy.properties.StringProperty`
-    and defaults to ''.
-    '''
-
-    color_text_title = ListProperty([.9, .9, .9, 1])
-    '''Цвет текста описания пункта настроек.
-
-    :attr: `color_text_title` is a :class:`~kivy.properties.ListProperty`
-    and defaults to [.9, .9, .9, 1].
-    '''
-
-    background_image_title = StringProperty('')
-    '''Фоновое изображение описания пункта настроек.
-
-    :attr: `background_image_title` is a :class:`~kivy.properties.StringProperty`
-    and defaults to ''.
-    '''
-
-    background_color_title = ListProperty([.15, .15, .15, .5])
-    '''Цвет описания пункта настроек.
-
-    :attr: `background_color_title` is a :class:`~kivy.properties.ListProperty`
-    and defaults to [.15, .15, .15, .5].
-    '''
-
-    background_image_item = StringProperty('')
-    '''Фоновое изображение пункта настроек.
-
-    :attr: `background_image_item` is a :class:`~kivy.properties.StringProperty`
-    and defaults to ''.
-    '''
-
-    background_color_item = ListProperty(
-        [47 / 255., 167 / 255., 212 / 255., 0]
-    )
-    '''Цвет пункта настроек.
-
-    :attr: `background_color_item` is a :class:`~kivy.properties.ListProperty`
-    and defaults to [47 / 255., 167 / 255., 212 / 255., 0].
-    '''
-
-    background_color = ListProperty([1, 1, 1, 0])
-    '''Фоновый цвет настроек.
-
-    :attr: `background_color_item` is a :class:`~kivy.properties.ListProperty`
-    and defaults to [1, 1, 1, 0].
-    '''
-
-    separator_color = ListProperty(
-        [0.12156862745098039, 0.8901960784313725, 0.2, 0.011764705882352941]
-    )
 
     def __init__(self, **kvargs):
         super(CustomSettings, self).__init__(**kvargs)
         Builder.load_string(
             title_item.format(
-                background_color_title=self.background_color_title,
-                background_image_title=self.background_image_title,
-                background_color_item=self.background_color_item,
-                background_image_item=self.background_image_item,
+                background_color_title=BACKGROUND_COLOR_TITLE,
+                background_image_title=BACKGROUND_IMAGE_TITLE,
+                background_color_item=BACKGROUND_COLOR_ITEM,
+                background_image_item=BACKGROUND_IMAGE_ITEM,
                 background_sections=', '.join(
-                    [str(value) for value in self.background_sections[:-1]]),
-                separator_color=self.separator_color,
-                color_text_title=self.color_text_title
+                    [str(value) for value in BACKGROUND_SECTIONS[:-1]]),
+                separator_color=SEPARATOR_COLOR,
+                color_text_title=COLOR_TEXT_INPUT
             )
         )
-
         SettingOptions._create_popup = self.options_popup
         SettingNumeric._create_popup = self.input_popup
         SettingString._create_popup = self.input_popup
         SettingPath._create_popup = self.path_popup
-
-        # Цвет статической и фон нажатой кнопки закрытия экрана настроек.
-        button_close = self.settings_obj.children[0].children[1].ids.button
-        button_close.background_color = [
-            value + .5 for value in self.background_color_title]
-        button_close.background_down = self.button_close_background_down
-
-        with self.settings_obj.canvas.before:
-            Color(rgba=self.background_color)
-            canvas_settings = Rectangle(
-                pos=(0, 0), size=(
-                    self.settings_obj.width, self.settings_obj.height
-                )
-            )
-
-            def on_settings_pos(instance, value):
-                canvas_settings.pos = value
-
-            def on_settings_size(instance, value):
-                canvas_settings.size = value
-
-            self.settings_obj.bind(size=on_settings_size, pos=on_settings_pos)
 
     def options_popup(self, options_instance):
         def on_select(button_instance):
@@ -197,8 +125,8 @@ class CustomSettings(Dialog):
 
         dialog = KDialog(answer_callback=on_select,
                          title=input_instance.title,
-                         separator_color=self.separator_color).show(
-            text=self.text_input, text_button_ok='OK', param='text'
+                         separator_color=SEPARATOR_COLOR).show(
+            text=TEXT_INPUT, text_button_ok='OK', param='text'
         )
         dialog.input_dialog.text = input_instance.value
 

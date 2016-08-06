@@ -16,10 +16,12 @@ from kivy.config import ConfigParser
 from kivy.clock import Clock
 from kivy.properties import ObjectProperty, NumericProperty
 
+# Экран настроек.
+from Libs.uix import customsettings
+
 # Макеты интерфейса.
 from Libs.uix.kdialog import KDialog, BDialog  # ADialog, FDialog, CDialog, PDialog
 from Libs.uix.startscreen import StartScreen
-from Libs.uix.customsettings import CustomSettings
 
 # Классы программы.
 from Libs import programclass as prog_class
@@ -64,37 +66,21 @@ class Program(App, prog_class.ShowPlugin):
         self.name_program = core.string_lang_title
 
     def build_config(self, config):
-        config.adddefaultsection('General')
-        config.setdefault('General', 'language', 'Русский')
-
-        config.adddefaultsection('Theme')
-        config.setdefault('Theme', 'theme', 'default')
-        config.setdefault('Theme', 'edit_theme', '0')
-        config.setdefault('Theme', 'create_theme', '0')
+        config.setdefaults('General', {'language': 'Русский'})
+        config.setdefaults('Theme', {'theme': 'default', 'edit_theme': '0',
+                                     'create_theme': '0'})
 
     def build_settings(self, settings):
-        CustomSettings(
-            background_sections=core.color_action_bar,
-            background_color=core.color_body_program,
-            background_color_title=core.color_action_bar,
-            button_close_background_down='Data/Images/shadows/shadow_btn.png',
-            color_text_title=core.separator_color, settings_obj=settings
-        )
-
-        general_settings = open('{}/Data/Settings/general.json'.format(
-            core.prog_path)).read()
-        general_data = general_settings.format(
+        with open('{}/Data/Settings/general.json'.format(
+                core.prog_path), 'r') as settings_json:
+            settings.add_json_panel(
+                core.string_lang_settings, self.config,
+                data=settings_json.read().format(
             language=core.string_lang_setting_language,
             title=core.string_lang_setting_language_title,
             desc=core.string_lang_setting_language_desc,
             russian=core.string_lang_setting_language_russian,
-            english=core.string_lang_setting_language_english)
-        settings.add_json_panel(
-            core.string_lang_general, self.config, data=general_data)
-
-        theme_settings = open('{}/Data/Settings/theme.json'.format(
-            core.prog_path)).read()
-        theme_data = theme_settings.format(
+            english=core.string_lang_setting_language_english,
             settings_color_theme=core.string_lang_setting_chek_themes,
             title_select_theme=core.string_lang_setting_chek_themes_title,
             desc_select_theme=core.string_lang_setting_chek_themes_desc,
@@ -103,20 +89,15 @@ class Program(App, prog_class.ShowPlugin):
             title_edit_theme=core.string_lang_setting_edit_themes_title,
             desc_edit_theme=core.string_lang_setting_edit_themes_desc,
             title_create_theme=core.string_lang_setting_create_themes_title,
-            desc_create_theme=core.string_lang_setting_create_themes_desc)
-        settings.add_json_panel(
-            core.string_lang_theme, self.config, data=theme_data)
+            desc_create_theme=core.string_lang_setting_create_themes_desc))
 
     def build(self):
         self.title = self.name_program  # заголовок окна программы
         self.icon = 'Data/Images/logo.png'  # иконка окна программы
-        self.use_kivy_settings = False
-        self.settings_cls = SettingsWithSidebar
-
+        self.settings_cls = customsettings.CustomSettings
         self.config = ConfigParser()
         self.config.read('{}/program.ini'.format(core.prog_path))
         self.set_variable_from_settings()
-
         # Домашняя страница клиента.
         self.start_screen = \
             StartScreen(title_previous=self.name_program,
