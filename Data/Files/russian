@@ -71,10 +71,9 @@ string_lang_setting_create_themes_desc = 'Создайте новую цвето
 string_lang_desc_license = \
 '''
 [color=#text_color]Проект [color=#key_text_color]{NAME_PROJECT}.
--------------------------------------------------------------------------------
 [color=#link_color][ref={REPOSITORY}]{REPOSITORY}[/ref]
 
-[color=#text_color]Специально для сайта [color=#link_color][ref=https://.dimonvideo.ru]www.dimonvideo.ru[/ref][color=#text_color] Это свободное программное обеспечение.
+[color=#text_color]Это свободное программное обеспечение.
 Вы можете распространять и/или изменять его на условиях лицензии [color=#key_text_color]GNU General Public License, [color=#text_color]опубликованной Фондом свободного программного обеспечения; либо версии 2 этой лицензии, либо (по вашему выбору) любой более поздней версии.
 
 [color=#key_text_color]{NAME_PROJECT} [color=#text_color]распространяется в надежде, что он может быть полезен, но
