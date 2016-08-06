@@ -45,11 +45,8 @@ class StartScreen(BoxLayout):
     title_previous = StringProperty('My program')
     """Заголоок ActionBar."""
 
-    title_image = StringProperty('data/logo/kivy-icon-24.png')
+    title_image = StringProperty('data/logo/kivy-icon-512.png')
     """Путь к изображению для шапки програмы."""
-
-    title_image_size = ListProperty((1, 2.5))
-    """Размер изображения шапки програмы."""
 
     overflow_image = StringProperty(
         'atlas://data/images/defaulttheme/overflow')
@@ -63,7 +60,6 @@ class StartScreen(BoxLayout):
 
     def __init__(self, **kvargs):
         super().__init__(**kvargs)
-        self.mobile_client_label = self.ids.mobile_client_label
         self.action_view = self.ids.action_view
         self.screen_manager = self.ids.screen_manager
         self.action_previous = self.ids.action_previous

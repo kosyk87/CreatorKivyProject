@@ -9,7 +9,6 @@ import sys
 import webbrowser
 
 from kivy.app import App
-from kivy.uix.settings import SettingsWithSidebar
 # from kivy.uix.screenmanager import Screen, FadeTransition
 from kivy.core.window import Window
 from kivy.config import ConfigParser
