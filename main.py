@@ -57,32 +57,36 @@ try:
 except FileNotFoundError:
     Logger.error('Указанная директория {} не существует!'.format(dir_project))
 except PermissionError:
-    Logger.error('У вас нет прав для создания проекта в директории {}!'.format(
-        dir_project))
-
+    Logger.error(
+        'У вас нет прав для создания проекта в директории {}!'.format(
+            dir_project
+        )
+    )
 try:
     Logger.info('Создание точки входа main.py ...')
     open('{}/main.py'.format(full_path_to_project), 'w').write(
         open('{}/Data/Files/main'.format(prog_path)).read() % repo_project)
 
     Logger.info('Создание файла языковой локализации russian.txt ...')
-    open('{}/russian.txt'.format(dir_language), 'w').write(open(
-        '{}/Data/Files/russian'.format(prog_path)).read().format(
-        NAME_PROJECT=name_project, REPOSITORY=repo_project, NAME_PLUGIN='{}',
-        VERSION='{}'))
+    open('{}/russian.txt'.format(dir_language), 'w').write(
+        open('{}/Data/Files/russian'.format(prog_path)).read().format(
+            NAME_PROJECT=name_project, REPOSITORY=repo_project,
+            NAME_PLUGIN='{}', VERSION='{}'
+        )
+    )
 
     Logger.info('Создание файла README.md ...')
     open('{}/README.md'.format(full_path_to_project), 'w').write(
         open('{}/Data/Files/README'.format(prog_path)).read().format(
-            NAME_PROJECT=name_project))
-
+            NAME_PROJECT=name_project
+        )
+    )
     data = {
         '{}/program.py'.format(full_path_to_project):
             'Создание файла программного кода program.py ...',
         '{}/Data/Settings/general.json'.format(full_path_to_project):
-            'Создание файла настроек general.json ...',
-        '{}/Data/Settings/theme.json'.format(full_path_to_project):
-            'Создание файла настроек theme.json ...'}
+            'Создание файла настроек general.json ...'
+    }
     for file in data.keys():
         Logger.info(data[file])
         open(file, 'w').write(open('{}/Data/Files/{}'.format(
@@ -93,13 +97,12 @@ try:
                       '{}/Data/Themes']:
         shutil.copytree(directory.format(prog_path),
                         directory.format(full_path_to_project))
-
 except FileNotFoundError as exc:
-    Logger.error('Не могу найти файл проекта - ', exc)
+    Logger.error('Не могу найти файл проекта - {}'.format(exc))
     shutil.rmtree(full_path_to_project)
     sys.exit(0)
 except Exception as exc:
-    Logger.error('Неизвестная ошибка - ', exc)
+    Logger.error('Неизвестная ошибка - {}'.format(exc))
     shutil.rmtree(full_path_to_project)
     sys.exit(0)
 

@@ -27,7 +27,7 @@ try:
     # Указываем пользоваться системным методом ввода, использующимся на
     # платформе, в которой запущенно приложение.
     Config.set('kivy', 'keyboard_mode', 'system')
-    Config.set('kivy', 'log_level', 'error')
+    # Config.set('kivy', 'log_level', 'error')
     # Config.set('graphics', 'width', '400')
     # Config.set('graphics', 'height', '600')
 
