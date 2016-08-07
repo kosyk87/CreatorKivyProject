@@ -81,6 +81,7 @@ try:
             NAME_PROJECT=name_project
         )
     )
+
     data = {
         '{}/program.py'.format(full_path_to_project):
             'Создание файла программного кода program.py ...',
@@ -97,6 +98,14 @@ try:
                       '{}/Data/Themes']:
         shutil.copytree(directory.format(prog_path),
                         directory.format(full_path_to_project))
+
+    Logger.info('Создание файла README.rst для TestPlugin ...')
+    open('{}/Libs/Plugins/TestPlugin/README.rst'.format(full_path_to_project),
+         'w').write(
+        open('{}/Data/Files/README.rst'.format(prog_path)).read().format(
+            NAME_PROJECT=name_project
+        )
+    )
 except FileNotFoundError as exc:
     Logger.error('Не могу найти файл проекта - {}'.format(exc))
     shutil.rmtree(full_path_to_project)
