@@ -17,7 +17,7 @@ Python 2.7 +
 
 https://github.com/HeaTTheatR/CreatorKivyProject.git
 
-После создания проекта вам даступны следующие экраны:
+После создания проекта вам доступны следующие экраны:
 
 ![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/CreatorKivyProject/master/Screenshots/start_screen.jpg)
 ![ScreenShot](https://raw.githubusercontent.com/HeaTTheatR/CreatorKivyProject/master/Screenshots/settings_screen.jpg)
